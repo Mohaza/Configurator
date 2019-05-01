@@ -1,0 +1,36 @@
+table{
+    width: 100%;
+    background-color: lightblue;
+
+ 
+}
+.table-container{
+    height: 350px;
+    overflow: auto;
+    position: absolute;
+    width: 1450px;
+    bottom: 80px;
+    left: 20px;
+    background-color: lightblue;
+    padding: 10px;
+    border: 1px solid rgb(0, 0, 0);
+}
+.filter{
+    position: absolute;
+    top: 280px;
+    left: 500px;
+    width: 400px;
+}
+input{
+    width: 100%
+}
+.tag-section{
+    position: absolute;
+    top: 265px;
+    left: 30px;
+}
+.mat-divider{
+    position: absolute;
+    top: 270px;
+    width: 99%
+}

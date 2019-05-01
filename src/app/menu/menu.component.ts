@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {MatDialog} from '@angular/material';
 import { DialogTagComponent } from '../dialog-tag/dialog-tag.component';
+
 @Component({
   selector: 'app-menu',
   templateUrl: './menu.component.html',
@@ -15,11 +16,9 @@ export class MenuComponent implements OnInit {
   }
   openTag(){
     let tagRef = this.tag.open(DialogTagComponent, {
-      width: '600px',
+      width: '600px', disableClose: true
     });
     tagRef.afterClosed().subscribe(result => {
-      console.log(`Dialog closed: ${result}`);
-
       //Restart dialog tag
       if(result == 'Return'){
         this.openTag();

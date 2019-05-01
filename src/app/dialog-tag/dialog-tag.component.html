@@ -8,7 +8,7 @@
   </div>
   <br>
   <div>Data type: &nbsp;
-    <mat-select class='form-control' [(ngModel)]='defaultDataType'>
+    <mat-select class='form-control' [(ngModel)]='selectedDataType'>
       <mat-option [value]="dataType" *ngFor="let dataType of dataTypes">{{dataType.name}}</mat-option>
     </mat-select>
   </div>
@@ -25,17 +25,17 @@
   <br>
   <div>Start address: &nbsp;
     <div style="text-align:center">
-      <mat-radio-group aria-label="Select an start address" [(ngModel)]='defaultStartAddress'>
+      <mat-radio-group aria-label="Select an start address" [(ngModel)]='addressOption'>
         <mat-radio-button value="auto">First available &nbsp;</mat-radio-button>
         <mat-radio-button value="manually">Enter manually</mat-radio-button>
       </mat-radio-group>
       <div style="text-align:right">
-          <input matInput type="number" value="0" step="1" min="0" [disabled]="defaultStartAddress==='auto'">
+          <input matInput type="number" [(ngModel)]="startAddress" step="1" min="0" [disabled]="addressOption==='auto'">
       </div>
     </div>
   </div>
   <br>
-  <div>Size of tag: &nbsp;{{defaultDataType.size * numOfElements}}&nbsp;byte
+  <div>Size of tag: &nbsp;{{selectedDataType.size * numOfElements}}&nbsp;byte
     
   </div>
 </mat-dialog-content>

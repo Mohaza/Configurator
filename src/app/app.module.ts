@@ -16,15 +16,20 @@ import {
   MatRadioModule,
   MatIconModule,
   MatDividerModule,
+  MatTableModule,
+  MatSortModule,
   } from '@angular/material';
 import { DialogTagComponent } from './dialog-tag/dialog-tag.component';
 import { DisplayComponent } from './display/display.component';
+import { TableTagComponent } from './table-tag/table-tag.component';
+import { ServiceTagService } from './services/service-tag.service';
 @NgModule({
   declarations: [
     AppComponent,
     MenuComponent,
     DialogTagComponent,
-    DisplayComponent
+    DisplayComponent,
+    TableTagComponent
   ],
   imports: [
     BrowserModule,
@@ -39,10 +44,13 @@ import { DisplayComponent } from './display/display.component';
     MatFormFieldModule,
     MatRadioModule,
     MatIconModule,
-    MatDividerModule
+    MatDividerModule,
+    MatTableModule,
+    MatSortModule,
+    
   ],
   entryComponents: [DialogTagComponent],
-  providers: [],
+  providers: [ServiceTagService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

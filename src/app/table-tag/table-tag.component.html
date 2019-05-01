@@ -1,0 +1,49 @@
+<mat-divider></mat-divider>
+<div class="tag-section">
+  <p>Tags</p>
+</div>
+<div class="filter">
+    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search">
+</div>
+<div class="table-container">
+
+  <table mat-table [dataSource]="dataSource" matSort>
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+      <td mat-cell *matCellDef="let tag"> {{tag.name}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="dataType">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Data Type </th>
+      <td mat-cell *matCellDef="let tag"> {{tag.dataType}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="elements">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> # of Elements </th>
+      <td mat-cell *matCellDef="let tag"> {{tag.elements}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="direction">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Direction </th>
+      <td mat-cell *matCellDef="let tag"> {{tag.direction}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="startAddress">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Start Address </th>
+      <td mat-cell *matCellDef="let tag"> {{tag.startAddress}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="endAddress">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> End Address </th>
+      <td mat-cell *matCellDef="let tag"> {{tag.endAddress}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="nodeID">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> OPC UA Node ID </th>
+      <td mat-cell *matCellDef="let tag"> {{tag.nodeID}} </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+</div>

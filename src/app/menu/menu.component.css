@@ -17,29 +17,23 @@
     background-color: gainsboro
 }
 .button{
-  position: relative;
-  top: 400px;
-  left: 20px;
-  width: 100px;
-  margin-right: 20px;
-  background-color: gainsboro
-}
-.mat-radio-group{
-    display: flex;
-    flex-direction: column;
     position: absolute;
-    left: 500px;
-    top: 110px;
+    bottom: 30px;
+    left: 20px;
+    width: 100px;
+    background-color: gainsboro
   }
-
-.namespace{
+  .button1{
     position: absolute;
-    left: 630px;
-    top: 110px;
+    bottom: 30px;
+    left: 160px;
+    width: 100px;
+    background-color: gainsboro
   }
-
-.protocolTitle{
+  .button2{
     position: absolute;
-    left: 500px;
-    top: 70px;
-}
+    bottom: 30px;
+    left: 300px;
+    width: 100px;
+    background-color: gainsboro
+  } 
