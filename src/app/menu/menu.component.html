@@ -9,8 +9,8 @@
   <button mat-button [matMenuTriggerFor]="editMenu" class="menu">Edit</button>
   <mat-menu #editMenu="matMenu">
     <button mat-menu-item (click)="openTag()">Add</button>
-    <button mat-menu-item>Modify</button>
-    <button mat-menu-item>Remove</button>
+    <button mat-menu-item name="buttonsBool" ngDefaultControl [(ngModel)]='buttonsBool' [disabled]="buttonsBool === true" (click)="modifyTag()">Modify</button>
+    <button mat-menu-item (click)="removeTag()" [disabled]="buttonsBool === true">Remove</button>
   </mat-menu>
 
   <button mat-button [matMenuTriggerFor]="helpMenu" class="menu">Help</button>
@@ -35,14 +35,16 @@
   <button mat-icon-button class="add-icon" (click)="openTag()" title="Add...">
     <mat-icon>add</mat-icon>
   </button>
-  <button mat-icon-button class="create-icon" title="Modify...">
+  <button mat-icon-button class="create-icon" title="Modify..." [disabled]="buttonsBool === true" (click)="modifyTag()">
     <mat-icon>create</mat-icon>
   </button>
-  <button mat-icon-button class="remove-icon" title="Remove">
+  <button mat-icon-button class="remove-icon" title="Remove" (click)="removeTag()" [disabled]="buttonsBool === true">
     <mat-icon>remove</mat-icon>
   </button>
 </div>
 <mat-divider></mat-divider>
+<div>
 <button mat-raised-button class="button" (click)="openTag()">Add...</button>
-<button mat-raised-button class="button1">Modify...</button>
-<button mat-raised-button class="button2">Remove</button>
+<button mat-raised-button class="button1" [disabled]="buttonsBool === true" (click)="modifyTag()">Modify...</button>
+<button mat-raised-button class="button2" (click)="removeTag()" [disabled]="buttonsBool === true">Remove</button>
+</div>

@@ -9,22 +9,41 @@ import {Subject} from 'rxjs';
 export class ServiceTagService {
 
   public newTagSubject = new Subject<any>();
+  public removeTagSubject = new Subject<any>();
+  public modifiedTagSubject = new Subject<any>();
 
-  startAddress: number;
-  endAddress: number;
+  public rowData : any;
+  public modifyMode : boolean = false;
+
 
   constructor() {
     
    }
-
    addTag(data:any[]){
 
     this.newTagSubject.next(data);
    }
-   newStartAddress(num : number){
-    return this.startAddress += num;
+   removeTag(){
+     this.removeTagSubject.next();
    }
-   newEndAddress(num : number){
-    return this.endAddress += num;
-  }
+
+   modifiedTag(data : any[]){
+     this.modifiedTagSubject.next(data);
+   }
+   
+   setRowData(data : any){
+     this.rowData = data;
+   }
+   getRowData(){
+     return this.rowData;
+   }
+   setModifyMode(bool :boolean){
+    this.modifyMode = bool;
+   }
+   getModifyMode(){
+    return this.modifyMode;
+   }
+  
+
+  
 }

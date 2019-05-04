@@ -23,6 +23,7 @@ import { DialogTagComponent } from './dialog-tag/dialog-tag.component';
 import { DisplayComponent } from './display/display.component';
 import { TableTagComponent } from './table-tag/table-tag.component';
 import { ServiceTagService } from './services/service-tag.service';
+import { ButtonSettingsService } from './services/button-settings.service';
 @NgModule({
   declarations: [
     AppComponent,
@@ -50,7 +51,7 @@ import { ServiceTagService } from './services/service-tag.service';
     
   ],
   entryComponents: [DialogTagComponent],
-  providers: [ServiceTagService],
+  providers: [ServiceTagService,ButtonSettingsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -34,3 +34,9 @@ input{
     top: 270px;
     width: 99%
 }
+tr.active{
+    background-color:#123456 !important;
+    color: white;
+  }
+
+  

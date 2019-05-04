@@ -44,6 +44,9 @@
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    <tr mat-row *matRowDef="let row = index; columns: displayedColumns;" [class.active]="row == selectedRow" (click)="setClickedRow(row)" ></tr>
   </table>
+</div>
+<div class="well well-lg">
+  Selected Row : <strong>{{selectedRow}}</strong>
 </div>
