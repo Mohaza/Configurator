@@ -21,7 +21,7 @@ export class MenuComponent implements OnInit, OnDestroy {
   ngOnInit() {
 
 
-    this.buttonService.enableButtonsSubject.subscribe(enable=>{
+    this.buttonService.enableButtonsSubject.subscribe(()=>{
       this.buttonsBool =false;
     });
    
@@ -70,6 +70,11 @@ export class MenuComponent implements OnInit, OnDestroy {
         this.openTag();
       }
     })
+  }
+
+  resetTags(){
+    this.tagService.resetTags();
+
   }
 
 }

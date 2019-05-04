@@ -6,6 +6,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DisplayComponent implements OnInit {
   defaultProtocol = 'opc-ua';
+  highestAddress : number = 0;
+  totalMemory : number = 0;
+  numberOfTags : number = 0;
 
   constructor() { }
 

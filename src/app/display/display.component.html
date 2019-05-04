@@ -1,3 +1,19 @@
+<p class="infoTitle">Information</p>
+
+<div>
+  <p class="statusTitle">Status</p>
+  <div class="highest-address">Highest Address:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    {{highestAddress}}
+  </div>
+  <div class="memory">Memory used:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    {{totalMemory}}/512 bytes
+  </div>
+  <div class="numTags">Number of tags:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    {{numberOfTags}}
+  </div>
+
+</div>
+
 <div>
   <p class="protocolTitle">Supported protocol</p>
   <mat-radio-group aria-label="Select an protocol" [(ngModel)]='defaultProtocol'>

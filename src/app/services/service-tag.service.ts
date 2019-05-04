@@ -11,7 +11,7 @@ export class ServiceTagService {
   public newTagSubject = new Subject<any>();
   public removeTagSubject = new Subject<any>();
   public modifiedTagSubject = new Subject<any>();
-
+  public resetTagsSubject = new Subject<any>();
   public rowData : any;
   public modifyMode : boolean = false;
 
@@ -29,6 +29,9 @@ export class ServiceTagService {
 
    modifiedTag(data : any[]){
      this.modifiedTagSubject.next(data);
+   }
+   resetTags(){
+     this.resetTagsSubject.next();
    }
    
    setRowData(data : any){

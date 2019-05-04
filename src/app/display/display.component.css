@@ -4,20 +4,45 @@
       flex-direction: column;
       position: absolute;
       left: 650px;
-      top: 130px;
+      top: 160px;
     }
   
   .namespace{
       position: absolute;
       left: 780px;
-      top: 130px;
+      top: 160px;
     }
   
   .protocolTitle{
       position: absolute;
       left: 650px;
-      top: 80px;
+      top: 110px;
   }
   input{
-      width: 400px
+      width: 400px;
+  }
+  .highest-address{
+    position: absolute;
+    left: 50px;
+    top: 160px
+  }
+  .memory{
+    position: absolute;
+    left: 50px;
+    top: 185px
+  }
+  .numTags{
+    position: absolute;
+    left: 50px;
+    top: 210px
+  }
+  .statusTitle{
+    position: absolute;
+    left: 40px;
+    top: 110px
+  }
+  .infoTitle{
+    position: absolute;
+    left: 30px;
+    top: 90px
   }

@@ -44,7 +44,7 @@ export class TableTagComponent implements OnInit, OnDestroy {
       this.updateData();
     })
 
-    this.tagService.removeTagSubject.subscribe(del =>{
+    this.tagService.removeTagSubject.subscribe(() =>{
       if(this.selectedRow !=-1){
         ELEMENT_DATA.splice(this.selectedRow,1);
       }
@@ -61,6 +61,13 @@ export class TableTagComponent implements OnInit, OnDestroy {
       this.updateData();
     })
 
+    this.tagService.resetTagsSubject.subscribe(()=>{
+      ELEMENT_DATA.length = 0;
+      this.buttonService.setRowSelection(-1);
+      this.tagService.setRowData(null);
+      this.updateData();
+    })
+
   }
 
   updateData(){
@@ -71,7 +78,7 @@ export class TableTagComponent implements OnInit, OnDestroy {
 
     this.tagService.newTagSubject.unsubscribe();
     this.tagService.removeTagSubject.unsubscribe();
-
+    this.tagService.resetTagsSubject.unsubscribe();
     
   }
 

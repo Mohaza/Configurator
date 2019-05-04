@@ -1,7 +1,7 @@
 <div>
   <button mat-button [matMenuTriggerFor]="fileMenu" class="menu">File</button>
   <mat-menu #fileMenu="matMenu">
-    <button mat-menu-item>New</button>
+    <button mat-menu-item (click)="resetTags()">New</button>
     <button mat-menu-item>Open</button>
     <button mat-menu-item>Generate</button>
   </mat-menu>
@@ -20,7 +20,7 @@
   </mat-menu>
 </div>
 <div>
-  <button mat-icon-button class="file-icon" title="New">
+  <button mat-icon-button class="file-icon" title="New" (click)="resetTags()">
     <mat-icon>insert_drive_file</mat-icon>
   </button>
   <button mat-icon-button class="folder-icon" title="Open...">
