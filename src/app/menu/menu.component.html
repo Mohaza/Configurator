@@ -1,8 +1,9 @@
+<input style="display: none" type="file" (change)="onFileSelected($event)" #fileInput>
 <div>
   <button mat-button [matMenuTriggerFor]="fileMenu" class="menu">File</button>
   <mat-menu #fileMenu="matMenu">
     <button mat-menu-item (click)="resetTags()">New</button>
-    <button mat-menu-item>Open</button>
+    <button mat-menu-item (click)="fileInput.click()">Open</button>
     <button mat-menu-item>Generate</button>
   </mat-menu>
 
@@ -15,7 +16,7 @@
 
   <button mat-button [matMenuTriggerFor]="helpMenu" class="menu">Help</button>
   <mat-menu #helpMenu="matMenu">
-    <button mat-menu-item>Help</button>
+    <button mat-menu-item onclick="location.href='https://www.anybus.com/';">Help</button>
     <button mat-menu-item>About</button>
   </mat-menu>
 </div>
@@ -23,7 +24,7 @@
   <button mat-icon-button class="file-icon" title="New" (click)="resetTags()">
     <mat-icon>insert_drive_file</mat-icon>
   </button>
-  <button mat-icon-button class="folder-icon" title="Open...">
+  <button mat-icon-button class="folder-icon" title="Open..." (click)="fileInput.click()">
     <mat-icon>folder</mat-icon>
   </button>
   <button mat-icon-button class="cloud-icon" title="Generate...">

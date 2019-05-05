@@ -82,5 +82,14 @@ export class MenuComponent implements OnInit, OnDestroy {
     }
 
   }
+  onFileSelected(event : any){
+    let selectedFile = event.target.files[0];
+    const reader = new FileReader();
+    reader.onload = () =>{
+      console.log(reader.result);
+    }
+    reader.readAsBinaryString(selectedFile);
+
+  }
 
 }
