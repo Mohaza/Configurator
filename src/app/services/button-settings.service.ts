@@ -7,12 +7,17 @@ import {Subject} from 'rxjs';
 export class ButtonSettingsService {
 
   public enableButtonsSubject = new Subject<any>();
+  public disableButtonsSubject = new Subject<any>();
+
   public rowSelected : number;
 
   constructor() { }
 
  enableButtons(){
    this.enableButtonsSubject.next();
+ }
+ disableButtons(){
+   this.disableButtonsSubject.next();
  }
 
  setRowSelection(row : number){

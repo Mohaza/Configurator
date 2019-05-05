@@ -22,6 +22,12 @@ table{
     width: 400px;
     
 }
+.warning{
+    position: absolute;
+    top: 260px;
+    left: 905px;
+    color: red
+}
 input{
     width: 100%;
     height: 23px

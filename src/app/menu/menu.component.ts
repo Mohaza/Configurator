@@ -20,7 +20,9 @@ export class MenuComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
-
+    this.buttonService.disableButtonsSubject.subscribe(()=>{
+      this.buttonsBool = true;
+    });
     this.buttonService.enableButtonsSubject.subscribe(()=>{
       this.buttonsBool =false;
     });
@@ -74,6 +76,10 @@ export class MenuComponent implements OnInit, OnDestroy {
 
   resetTags(){
     this.tagService.resetTags();
+    if(this.buttonService.getRowSelection() == -1){
+      this.buttonsBool = true;
+
+    }
 
   }
 
