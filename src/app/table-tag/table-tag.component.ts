@@ -79,6 +79,10 @@ export class TableTagComponent implements OnInit, OnDestroy {
       this.ngAfterViewInit(); 
     })
 
+    this.tagService.protocolChangeSubject.subscribe(protocol =>{
+    (protocol === "opc-ua") ? this.displayedColumns =this.OPC_UA : this.displayedColumns =this.MQTT;
+    })
+
   }
 
   updateData() {

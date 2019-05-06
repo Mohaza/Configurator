@@ -12,6 +12,8 @@ export class ServiceTagService {
   public removeTagSubject = new Subject<any>();
   public modifiedTagSubject = new Subject<any>();
   public resetTagsSubject = new Subject<any>();
+  public protocolChangeSubject = new Subject<any>();
+
   public rowData : any;
   public modifyMode : boolean = false;
 
@@ -46,7 +48,9 @@ export class ServiceTagService {
    getModifyMode(){
     return this.modifyMode;
    }
-   
+   updateTableCol(protocol : string){
+     this.protocolChangeSubject.next(protocol);
+   }
   
 
   
