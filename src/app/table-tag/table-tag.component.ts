@@ -25,7 +25,7 @@ export class TableTagComponent implements OnInit, OnDestroy {
 
   OPC_UA: string[] = ['name', 'dataType', 'elements', 'startAddress', 'endAddress', 'nodeID'];
   MQTT: string[] = ['name', 'dataType', 'elements', 'startAddress', 'endAddress'];
-
+  
   selectedRow: number = -1;
   dataSource: MatTableDataSource<tagElement>;
   displayedColumns = this.OPC_UA;

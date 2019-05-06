@@ -87,6 +87,7 @@ export class MenuComponent implements OnInit, OnDestroy {
     const reader = new FileReader();
     reader.onload = () =>{
       console.log(reader.result);
+      var parser = new DOMParser();
     }
     reader.readAsBinaryString(selectedFile);
 
