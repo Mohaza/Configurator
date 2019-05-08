@@ -18,7 +18,6 @@ export class DisplayComponent implements OnInit {
   }
 
   updateProtocol(){
-    console.log('tt')
     this.tagService.updateTableCol(this.protocol);
   }
 

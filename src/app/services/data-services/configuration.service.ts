@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { ApplicationDataInstance } from 'src/app/models/application-data-instance';
 
 @Injectable({
   providedIn: 'root'
@@ -8,7 +9,7 @@ export class ConfigurationService {
   private protocol :string
   private  opcUANamespaceUri :string;
 //ApplicationDataObject
-  private adiList : any[];
+  private adiList : ApplicationDataInstance[];
   private highestAddress : number = 0;
   private highestAdi : number = 0;
   private totalSize : number = 0;
@@ -34,6 +35,12 @@ export class ConfigurationService {
   }
   setAdiList(adiList : any[] ){
     this.adiList = adiList;
+  }
+  addAdi(adi : ApplicationDataInstance){
+    this.setHighestAdi(this.highestAdi++)
+    adi.setAdiNumber(this.highestAdi);//fortsätt
+    this.adiList.push(adi);
+
   }
   getHighestAddress(){
     return this.highestAddress;

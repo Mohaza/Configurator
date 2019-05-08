@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { ConfigurationService } from './configuration.service';
+import { ApplicationDataInstance } from 'src/app/models/application-data-instance';
 
 
 @Injectable({
@@ -73,50 +74,50 @@ export class ConfigurationXmlService {
           this.CreateApplicationDataInstanceXml(adi, applicationDataObjectXmlElement, xmlDocument);
       }
   }
-  //starta här
-  private CreateApplicationDataInstanceXml(adi, parent : HTMLElement, xmlDocument :XMLDocument){
+
+  private CreateApplicationDataInstanceXml(adi : ApplicationDataInstance, parent : HTMLElement, xmlDocument :XMLDocument){
       var adiXmlElement = xmlDocument.createElement(this.AdiElement);
       parent.appendChild(adiXmlElement);
       var adiNumberXmlElement = xmlDocument.createElement(this.AdiNumberElement);
-      adiNumberXmlElement.setAttribute(this.ValueAttribute, adi.AdiNumber.Value.ToString(/*CultureInfo.InvariantCulture*/));
+      adiNumberXmlElement.setAttribute(this.ValueAttribute, adi.getAdiNumber().toString()); //adi.AdiNumber.Value.ToString(/*CultureInfo.InvariantCulture*/
       adiXmlElement.appendChild(adiNumberXmlElement);
       var nameXmlElement = xmlDocument.createElement(this.NameElement);
-      nameXmlElement.setAttribute(this.ValueAttribute, adi.Name);
+      nameXmlElement.setAttribute(this.ValueAttribute, adi.getName() );//adi.Name
       adiXmlElement.appendChild(nameXmlElement);
       var nbrOfElementsXmlElement = xmlDocument.createElement(this.NbrOfElementsElement);
       nbrOfElementsXmlElement.setAttribute(
           this.ValueAttribute,
-          adi.Element.GetElementInformation().Count().ToString(/*CultureInfo.InvariantCulture*/));
+          adi.getNumberOfElements().toString());//adi.Element.GetElementInformation().Count().ToString(/*CultureInfo.InvariantCulture*/)
       adiXmlElement.appendChild(nbrOfElementsXmlElement);
       var offsetXmlElement = xmlDocument.createElement(this.BitOffsetElement);
-    //  offsetXmlElement.setAttribute(this.ValueAttribute, (adi.Offset * this.NumberOfBitsInByte).ToString(/*CultureInfo.InvariantCulture*/));
+      offsetXmlElement.setAttribute(this.ValueAttribute, (adi.getOffset() * this.NumberOfBitsInByte).toString())//.ToString(/*CultureInfo.InvariantCulture*/));
       adiXmlElement.appendChild(offsetXmlElement);
-      this.CreateElementXml(adi.Element, adiXmlElement, xmlDocument);
+      this.CreateElementXml(adi, adiXmlElement, xmlDocument);
   }
 
-  private CreateElementXml(element, parent : HTMLElement, xmlDocument:XMLDocument)
+  private CreateElementXml(adi : ApplicationDataInstance, parent : HTMLElement, xmlDocument:XMLDocument)
   {
       var baseElementXmlElement = xmlDocument.createElement(this.BaseElementElement);
       parent.appendChild(baseElementXmlElement);
       var dataTypeXmlElement = xmlDocument.createElement(this.DataTypeElement);
       dataTypeXmlElement.setAttribute(
           this.ValueAttribute,
-          element.GetElementInformation().First().DataType.TypeId.ToString(/*CultureInfo.InvariantCulture*/));
+          adi.getDataType().toString());//GetElementInformation().First().DataType.TypeId.ToString(/*CultureInfo.InvariantCulture*/
       baseElementXmlElement.appendChild(dataTypeXmlElement);
       var descriptorXmlElement = xmlDocument.createElement(this.DescriptorElement);
-     /* descriptorXmlElement.setAttribute(
+      descriptorXmlElement.setAttribute(
           this.ValueAttribute,
-          ((Number)(element.GetElementInformation().First().AccessRights)).ToString(/*CultureInfo.InvariantCulture));*/
+          adi.getAccessRights().toString());//((Number)(element.GetElementInformation().First().AccessRights)).ToString(/*CultureInfo.InvariantCulture*/)
       baseElementXmlElement.appendChild(descriptorXmlElement);
       var nbrOfSubelementsXmlElement = xmlDocument.createElement(this.NbrOfSubelementsElement);
       //Do If satement
-     /* nbrOfSubelementsXmlElement.setAttribute(
+      nbrOfSubelementsXmlElement.setAttribute(
           this.ValueAttribute,
-          element.GetElementInformation().First().NumberOfSubelements?.ToString(/*CultureInfo.InvariantCulture) ?? this.NoSubelementsValue);*/
+          adi.getNumberOfSubelements() === 0 ? this.NoSubelementsValue : adi.getNumberOfSubelements().toString());//GetElementInformation().First().NumberOfSubelements?.ToString(/*CultureInfo.InvariantCulture*/)
       baseElementXmlElement.appendChild(nbrOfSubelementsXmlElement);
   }
 
-  public CreateConfigurationXml(configuration, filePath : string)
+  public CreateConfigurationXml(configuration : ConfigurationService, filePath : string)
   {
       //created DOM object
       let xmlDocument  = document.implementation.createDocument("","",null)
