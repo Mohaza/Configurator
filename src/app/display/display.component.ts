@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ServiceTagService } from '../services/service-tag.service';
+import { ConfigurationService } from '../services/data-services/configuration.service';
 
 @Component({
   selector: 'app-display',
@@ -8,18 +9,25 @@ import { ServiceTagService } from '../services/service-tag.service';
 })
 export class DisplayComponent implements OnInit {
   protocol = 'opc-ua';
-  highestAddress : number = 0;
-  totalMemory : number = 0;
-  numberOfTags : number = 0;
+  highestAddress: number = 0;
+  totalMemory: number = 0;
+  numberOfTags: number = 0;
 
-  constructor(public tagService : ServiceTagService) { }
+  constructor(public tagService: ServiceTagService, public config: ConfigurationService) { }
 
   ngOnInit() {
-  }
 
-  updateProtocol(){
+    this.config.updateDisplaySubject.subscribe(() => {
+      this.highestAddress = this.config.getHighestAddress();
+      this.totalMemory = this.config.getTotalSize();
+      this.numberOfTags = this.config.getHighestAdi();
+
+    });
+
+  }
+  updateProtocol() {
     this.tagService.updateTableCol(this.protocol);
   }
 
-  
+
 }

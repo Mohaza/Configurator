@@ -13,8 +13,7 @@ export interface tagElement {
   nodeID: number;
 }
 
-const ELEMENT_DATA: tagElement[] = [
-];
+const ELEMENT_DATA: tagElement[] = [];
 
 @Component({
   selector: 'app-table-tag',

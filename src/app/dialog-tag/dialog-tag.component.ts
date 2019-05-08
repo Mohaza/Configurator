@@ -1,6 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import { ServiceTagService } from '../services/service-tag.service';
+import { DataType } from '../models/data-type';
 
 @Component({
   selector: 'app-dialog-tag',
@@ -10,14 +11,14 @@ import { ServiceTagService } from '../services/service-tag.service';
 export class DialogTagComponent implements OnInit {
   
 
-  defaultDirection = 'direction1';
+  direction = "1";
   addressOption ='auto';
-  dataTypes = [ 
-    {name: 'BOOL',size: 1},{name: 'SINT8',size: 1 },{ name: 'SINT16', size: 2 },
-    {name: 'SINT32',size: 4 },{name: 'UINT8',size: 1 },{name: 'UINT16',size: 2},
-    {name: 'UINT32',size: 4},{name: 'CHAR',size: 1 },{name: 'BITS8',size: 1 },
-    {name: 'BITS16',size: 2 },{name: 'BITS32',size: 4},{name: 'OCTET',size: 1 },
-    {name: 'FLOAT',size: 4} 
+  dataTypes : DataType[] = [ 
+    {name: 'BOOL',size: 1, id:0},{name: 'SINT8',size: 1, id:1 },{ name: 'SINT16', size: 2 , id:2},
+    {name: 'SINT32',size: 4, id:3 },{name: 'UINT8',size: 1, id:4 },{name: 'UINT16',size: 2, id:5},
+    {name: 'UINT32',size: 4, id:6},{name: 'CHAR',size: 1, id:7 },{name: 'BITS8',size: 1, id:9 },
+    {name: 'BITS16',size: 2, id:10 },{name: 'BITS32',size: 4, id:11},{name: 'OCTET',size: 1 , id:12},
+    {name: 'FLOAT',size: 4, id:18} 
   ]
   selectedDataType = this.dataTypes[0];
   numOfElements = 1;

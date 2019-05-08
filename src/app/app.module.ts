@@ -6,6 +6,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations'
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MenuComponent } from './menu/menu.component';
+
 import {
   MatMenuModule,
   MatButtonModule,
@@ -24,6 +25,8 @@ import { DisplayComponent } from './display/display.component';
 import { TableTagComponent } from './table-tag/table-tag.component';
 import { ServiceTagService } from './services/service-tag.service';
 import { ButtonSettingsService } from './services/button-settings.service';
+import { ConfigurationXmlService } from './services/data-services/configuration-xml.service';
+import { ConfigurationService } from './services/data-services/configuration.service';
 @NgModule({
   declarations: [
     AppComponent,
@@ -51,7 +54,7 @@ import { ButtonSettingsService } from './services/button-settings.service';
     
   ],
   entryComponents: [DialogTagComponent],
-  providers: [ServiceTagService,ButtonSettingsService],
+  providers: [ServiceTagService,ButtonSettingsService, ConfigurationXmlService, ConfigurationService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
