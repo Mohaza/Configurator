@@ -2,11 +2,12 @@ import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { MatSort, MatTableDataSource } from '@angular/material';
 import { ServiceTagService } from '../services/service-tag.service';
 import { ButtonSettingsService } from '../services/button-settings.service';
+import { ConfigurationService } from '../services/data-services/configuration.service';
 
 
 export interface tagElement {
   name: string;
-  dataType: number;
+  dataType: string;
   elements: number;
   startAddress: number;
   endAddress: number;
@@ -31,15 +32,21 @@ export class TableTagComponent implements OnInit, OnDestroy {
 
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(public tagService: ServiceTagService, public buttonService: ButtonSettingsService) {
+  constructor(public tagService: ServiceTagService, public buttonService: ButtonSettingsService, public config: ConfigurationService) {
     this.dataSource = new MatTableDataSource(ELEMENT_DATA);
     this.dataSource.filter = "";
 
   }
 
   ngOnInit() {
-    this.tagService.newTagSubject.subscribe(data => {
-      ELEMENT_DATA.push({ name: data[0], dataType: data[1], elements: data[2], startAddress: data[3], endAddress: data[4], nodeID: data[5] });
+    this.tagService.newTagSubject.subscribe(adi => {
+      this.config.addAdi(adi);
+      this.config.updateDisplay();
+      ELEMENT_DATA.push({
+         name: adi.getName() , dataType: adi.getDataType().name,
+         elements: adi.getElementsNumber(), startAddress: adi.getOffset(),
+         endAddress: adi.getEndAddress(), nodeID: adi.getOpcUANodeIdentifier() 
+      });
       this.dataSource = new MatTableDataSource(ELEMENT_DATA);   
       this.ngAfterViewInit(); 
       this.dataSource.sortData(this.dataSource.filteredData,this.dataSource.sort);
@@ -50,6 +57,7 @@ export class TableTagComponent implements OnInit, OnDestroy {
 
     this.tagService.removeTagSubject.subscribe(() => {
       ELEMENT_DATA.splice(this.selectedRow, 1);
+      this.config.getAdiList().splice(this.selectedRow-1)
       this.dataSource = new MatTableDataSource(ELEMENT_DATA);   
       this.ngAfterViewInit(); 
       this.dataSource.sortData(this.dataSource.filteredData,this.dataSource.sort);
@@ -62,8 +70,13 @@ export class TableTagComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.tagService.modifiedTagSubject.subscribe(data => {
-      ELEMENT_DATA[this.selectedRow] = { name: data[0], dataType: data[1], elements: data[2], startAddress: data[3], endAddress: data[4], nodeID: data[5] };
+    this.tagService.modifiedTagSubject.subscribe(adi => {
+      this.config.getAdiList()[this.selectedRow] = adi;
+      ELEMENT_DATA[this.selectedRow] = {
+         name: adi.getName(), dataType: adi.getDataType().name,
+         elements: adi.getElementsNumber(), startAddress: adi.getOffset(),
+         endAddress: adi.getEndAddress(), nodeID: adi.getOpcUANodeIdentifier()
+       };
       this.dataSource = new MatTableDataSource(ELEMENT_DATA);   
       this.ngAfterViewInit(); 
       this.dataSource.sortData(this.dataSource.filteredData,this.dataSource.sort);
@@ -73,6 +86,7 @@ export class TableTagComponent implements OnInit, OnDestroy {
 
     this.tagService.resetTagsSubject.subscribe(() => {
       ELEMENT_DATA.length = 0;
+      this.config.getAdiList().length = 0;
       this.resetRowData();
       this.dataSource = new MatTableDataSource(ELEMENT_DATA);   
       this.ngAfterViewInit(); 
@@ -94,6 +108,7 @@ export class TableTagComponent implements OnInit, OnDestroy {
     this.tagService.newTagSubject.unsubscribe();
     this.tagService.removeTagSubject.unsubscribe();
     this.tagService.resetTagsSubject.unsubscribe();
+    this.tagService.protocolChangeSubject.unsubscribe();
 
   }
   resetRowData() {
@@ -107,7 +122,6 @@ export class TableTagComponent implements OnInit, OnDestroy {
     this.dataSource.sort = this.sort;
 
   }
-
   sortHeader(){
     this.dataSource.sortData(this.dataSource.filteredData,this.dataSource.sort);
     this.tagService.setRowData(this.dataSource.data[this.selectedRow])
@@ -131,7 +145,6 @@ export class TableTagComponent implements OnInit, OnDestroy {
       this.buttonService.setRowSelection(this.selectedRow);
       let row = this.dataSource.data[this.selectedRow];
       this.tagService.setRowData(row);
-
 
     }
 

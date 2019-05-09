@@ -27,6 +27,8 @@ import { ServiceTagService } from './services/service-tag.service';
 import { ButtonSettingsService } from './services/button-settings.service';
 import { ConfigurationXmlService } from './services/data-services/configuration-xml.service';
 import { ConfigurationService } from './services/data-services/configuration.service';
+import { DatePipe } from '@angular/common';
+import { ConfigurationReaderService } from './services/data-services/configuration-reader.service';
 @NgModule({
   declarations: [
     AppComponent,
@@ -54,7 +56,10 @@ import { ConfigurationService } from './services/data-services/configuration.ser
     
   ],
   entryComponents: [DialogTagComponent],
-  providers: [ServiceTagService,ButtonSettingsService, ConfigurationXmlService, ConfigurationService],
+  providers: [
+    ServiceTagService,ButtonSettingsService,ConfigurationXmlService,
+    ConfigurationService,DatePipe, ConfigurationReaderService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -36,6 +36,9 @@ export class ApplicationDataInstance {
     getTotalBytes(){
         return this.dataType.size * ((this.numberOfSubelements === 0 ) ? this.numberOfElements : this.numberOfSubelements)
     }
+    getElementsNumber(){
+        return (this.numberOfSubelements === 0 ) ? this.numberOfElements : this.numberOfSubelements
+    }
 
     //SingleElement //ArrayElement
 
@@ -70,11 +73,6 @@ export class ApplicationDataInstance {
             numElements = numElements>MaximumNumberOfElements ? MaximumNumberOfElements : numElements;
             this.numberOfElements = numElements;
         }
-
-
-    
-
-
 
     }
   /*  //baseElement

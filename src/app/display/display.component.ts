@@ -12,12 +12,13 @@ export class DisplayComponent implements OnInit {
   highestAddress: number = 0;
   totalMemory: number = 0;
   numberOfTags: number = 0;
+  opcUANamespaceUri = ""
 
   constructor(public tagService: ServiceTagService, public config: ConfigurationService) { }
 
   ngOnInit() {
 
-    this.config.updateDisplaySubject.subscribe(() => {
+    this.config.updateDisplayEvent.subscribe(() => {
       this.highestAddress = this.config.getHighestAddress();
       this.totalMemory = this.config.getTotalSize();
       this.numberOfTags = this.config.getHighestAdi();
@@ -27,6 +28,7 @@ export class DisplayComponent implements OnInit {
   }
   updateProtocol() {
     this.tagService.updateTableCol(this.protocol);
+    this.config.setProtocol(this.protocol);
   }
 
 

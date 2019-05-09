@@ -2,6 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import { ServiceTagService } from '../services/service-tag.service';
 import { DataType } from '../models/data-type';
+import { ApplicationDataInstance } from '../models/application-data-instance';
 
 @Component({
   selector: 'app-dialog-tag',
@@ -26,6 +27,8 @@ export class DialogTagComponent implements OnInit {
   tagName = "";
   endAddress = 0;
 
+  
+
   constructor(public tagRef: MatDialogRef<DialogTagComponent>, public tagService: ServiceTagService,
     @Inject(MAT_DIALOG_DATA) public data :any) {
 
@@ -35,6 +38,8 @@ export class DialogTagComponent implements OnInit {
         this.selectedDataType = this.dataTypes.find(x => x.name === data.dataType);
         this.numOfElements = data.numEle;
         this.startAddress = data.startAddress;
+
+
       }
       
     
@@ -46,11 +51,14 @@ export class DialogTagComponent implements OnInit {
   }
   sendRow(){
     if(this.tagService.getModifyMode()){
-      this.tagService.modifiedTag([this.tagName,this.selectedDataType.name,this.numOfElements,this.startAddress,this.endAddress,777]);
+      let adi =new ApplicationDataInstance(this.selectedDataType, this.numOfElements,this.tagName, this.direction);
+
+      this.tagService.modifiedTag(adi);
       this.tagService.setModifyMode(false);
     }
     else{
-      this.tagService.addTag([this.tagName,this.selectedDataType.name,this.numOfElements,this.startAddress,this.endAddress,777]);
+      let adi =new ApplicationDataInstance(this.selectedDataType, this.numOfElements,this.tagName, this.direction);
+      this.tagService.addTag(adi);
     }
 
   }
@@ -66,9 +74,9 @@ export class DialogTagComponent implements OnInit {
 
   }
   onCloseCancel() {
-    if(this.tagService.getModifyMode()){
-      this.tagService.setModifyMode(false);
-    }
+
+    if(this.tagService.getModifyMode()){ this.tagService.setModifyMode(false); }
+
     this.tagRef.close('Cancel');
   }
 

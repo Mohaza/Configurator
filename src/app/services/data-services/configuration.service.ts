@@ -1,6 +1,5 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { ApplicationDataInstance } from 'src/app/models/application-data-instance';
-import {Subject} from 'rxjs';
 
 
 @Injectable({
@@ -11,18 +10,24 @@ export class ConfigurationService {
   private protocol :string
   private  opcUANamespaceUri :string;
 //ApplicationDataObject
-  private adiList : ApplicationDataInstance[];
+  private adiList : ApplicationDataInstance[] = [];
   private highestAddress : number = 0;
   private highestAdi : number = 0;
   private totalSize : number = 0;
 
-  public updateDisplaySubject = new Subject<any>();
+  private adiInstanceNum :number = 0;
+private address : boolean[] = []
 
+  public updateDisplayEvent = new EventEmitter<any>(true);
 
 
   constructor() { }
   updateDisplay(){
-    this.updateDisplaySubject.next();
+    this.updateDisplayEvent.next();
+  }
+
+  checkAddress(start:number){
+    
   }
 
   getProtocol(){
@@ -41,20 +46,34 @@ export class ConfigurationService {
   getAdiList(){
     return this.adiList;
   }
-  setAdiList(adiList : any[] ){
+  setAdiList(adiList : ApplicationDataInstance[] ){
     this.adiList = adiList;
   }
   addAdi(adi : ApplicationDataInstance){
     this.highestAdi++
+    this.adiInstanceNum++;
     this.totalSize +=adi.getTotalBytes();
-    adi.setOffset(this.highestAddress);
-    this.highestAddress += adi.getEndAddress();
 
-    adi.setAdiNumber(this.highestAdi);
-    this.adiNumberToOpcUANodeIdentifier(adi.getAdiNumber());
+
+   // adi.setOffset(this.highestAddress);
+    if(this.highestAddress < adi.getEndAddress()){
+      this.highestAddress = adi.getEndAddress();
+    }
+
+    adi.setAdiNumber(this.adiInstanceNum);
+    adi.setOpcUANodeIdentifier(this.adiNumberToOpcUANodeIdentifier(this.adiInstanceNum));
     this.adiList.push(adi);
 
   }
+  //fixa senare
+  removeAdi(){
+    this.highestAdi--;
+
+  }
+  modifyAdi(){
+
+  }
+
   getHighestAddress(){
     return this.highestAddress;
   }

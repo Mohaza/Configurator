@@ -32,22 +32,22 @@ export class ConfigurationXmlService {
   private   NbrOfSubelementsElement :string = "NumberOfSubelements";
   private   NoSubelementsValue: string = "0";
     
-  constructor(public timePipe: DatePipe){
+  constructor(public timePipe: DatePipe, public configuration: ConfigurationService){
 
   }
   private generateDateNow(): string{
       var date = new Date();
-      return this.timePipe.transform(date, 'yyyy-MM-dd hh:mm:ss');
+      return this.timePipe.transform(date, 'yyyy-MM-dd hh:mm:ss',"UTC+2");
   }
 
-  private CreateXml(configuration : ConfigurationService ,  xmlDocument : Document){
+  private CreateXml(  xmlDocument : Document){
       var rootXmlElement = xmlDocument.createElement(this.RootElement);
       rootXmlElement.setAttribute(this.CreatedAttribute, this.generateDateNow());
       xmlDocument.appendChild(rootXmlElement);
       var protocolXmlElement = xmlDocument.createElement(this.EnabledProtocolElement);
       rootXmlElement.appendChild(protocolXmlElement);
       var protocolValueXmlElement = xmlDocument.createElement(this.ProtocolElement);
-      if (configuration.getProtocol() === 'opc-ua'/* == Protocol.OpcUA*/)
+      if (this.configuration.getProtocol() === 'opc-ua'/* == Protocol.OpcUA*/)
       {
           protocolValueXmlElement.setAttribute(this.ValueAttribute, this.OpcAttributeValue);
           protocolXmlElement.appendChild(protocolValueXmlElement);
@@ -60,17 +60,17 @@ export class ConfigurationXmlService {
       var opcUAXmlElement = xmlDocument.createElement(this.OpcElement);
       rootXmlElement.appendChild(opcUAXmlElement);
       var opcUAValueXmlElement = xmlDocument.createElement(this.OpcUANamespaceUriElement);
-      opcUAValueXmlElement.setAttribute(this.ValueAttribute, configuration.getOpcUANamespaceUri());
+      opcUAValueXmlElement.setAttribute(this.ValueAttribute, this.configuration.getOpcUANamespaceUri());
       opcUAXmlElement.appendChild(opcUAValueXmlElement);
-      this.CreateApplicationDataObjectXml(configuration, rootXmlElement, xmlDocument);
+      this.CreateApplicationDataObjectXml( rootXmlElement, xmlDocument);
   }
-  private CreateApplicationDataObjectXml(configuration : ConfigurationService , parent: HTMLElement, xmlDocument : XMLDocument){
+  private CreateApplicationDataObjectXml( parent: HTMLElement, xmlDocument : XMLDocument){
       var applicationDataObjectXmlElement = xmlDocument.createElement(this.ApplicationDataObjectElement);
       parent.appendChild(applicationDataObjectXmlElement);
       var objectNbrXmlElement = xmlDocument.createElement(this.ObjectNbrElement);
       objectNbrXmlElement.setAttribute(this.ValueAttribute, this.ApplicationDataObjectNbrAttributeValue);
       applicationDataObjectXmlElement.appendChild(objectNbrXmlElement);
-      for (let adi of configuration.getAdiList()/*applicationDataObject.AdiList*/) {
+      for (let adi of this.configuration.getAdiList()/*applicationDataObject.AdiList*/) {
           this.CreateApplicationDataInstanceXml(adi, applicationDataObjectXmlElement, xmlDocument);
       }
   }
@@ -102,7 +102,7 @@ export class ConfigurationXmlService {
       var dataTypeXmlElement = xmlDocument.createElement(this.DataTypeElement);
       dataTypeXmlElement.setAttribute(
           this.ValueAttribute,
-          adi.getDataType().toString());//GetElementInformation().First().DataType.TypeId.ToString(/*CultureInfo.InvariantCulture*/
+          adi.getDataType().id.toString());//GetElementInformation().First().DataType.TypeId.ToString(/*CultureInfo.InvariantCulture*/
       baseElementXmlElement.appendChild(dataTypeXmlElement);
       var descriptorXmlElement = xmlDocument.createElement(this.DescriptorElement);
       descriptorXmlElement.setAttribute(
@@ -117,16 +117,30 @@ export class ConfigurationXmlService {
       baseElementXmlElement.appendChild(nbrOfSubelementsXmlElement);
   }
 
-  public CreateConfigurationXml(configuration : ConfigurationService, filePath : string)
+  public CreateConfigurationXml(fileName : string)
   {
       //created DOM object
       let xmlDocument  = document.implementation.createDocument("","",null)
-      this.CreateXml(configuration, xmlDocument);
+      this.CreateXml( xmlDocument);
+
+     
       
+
       var xmlSerializer = new XMLSerializer();
       //xml inside a string
       var sXML = xmlSerializer.serializeToString(xmlDocument);
+      console.log(sXML);
+      const blob = new Blob([sXML],{type : 'application/xml'})
+      const url = window.URL.createObjectURL(blob);
+      let link: HTMLAnchorElement = <HTMLAnchorElement>document.createElement("a");
 
+      link.href = url;
+      link.download = fileName + '.xml';
+      
+      link.click();
+
+      window.URL.revokeObjectURL(url);
+      //window.URL.revokeObjectURL(url);
      // xmlDocument.Save(filePath);
   }
 

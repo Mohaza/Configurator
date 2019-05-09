@@ -21,6 +21,6 @@
     <mat-radio-button value="mqtt">MQTT</mat-radio-button>
   </mat-radio-group>
   <div class="namespace">Namespace URI:&nbsp;
-    <input matInput type="text" [disabled]="protocol==='mqtt'">
+    <input matInput type="text" [disabled]="protocol==='mqtt'" [(ngModel)]='opcUANamespaceUri'>
   </div>
 </div>

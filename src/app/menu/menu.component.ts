@@ -3,6 +3,8 @@ import {MatDialog} from '@angular/material';
 import { DialogTagComponent } from '../dialog-tag/dialog-tag.component';
 import { ServiceTagService } from '../services/service-tag.service';
 import { ButtonSettingsService } from '../services/button-settings.service';
+import { ConfigurationXmlService } from '../services/data-services/configuration-xml.service';
+import { ConfigurationReaderService } from '../services/data-services/configuration-reader.service';
 
 
 @Component({
@@ -14,7 +16,7 @@ export class MenuComponent implements OnInit, OnDestroy {
   
   public buttonsBool : boolean = true;
 
-  constructor(public tag: MatDialog, public tagService: ServiceTagService, public buttonService: ButtonSettingsService) { 
+  constructor(public tag: MatDialog, public tagService: ServiceTagService, public buttonService: ButtonSettingsService, public configXml: ConfigurationXmlService, public configReader: ConfigurationReaderService) { 
 
   }
 
@@ -82,14 +84,16 @@ export class MenuComponent implements OnInit, OnDestroy {
     }
 
   }
+
+  generateXml(){
+      var fileName = "blobTest"
+      this.configXml.CreateConfigurationXml(fileName);
+  }
+
   onFileSelected(event : any){
     let selectedFile = event.target.files[0];
-    const reader = new FileReader();
-    reader.onload = () =>{
-      console.log(reader.result);
-      var parser = new DOMParser();
-    }
-    reader.readAsBinaryString(selectedFile);
+    this.configReader.readConfiguration(selectedFile);
+    
 
   }
 
