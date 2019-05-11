@@ -47,7 +47,7 @@ export class ConfigurationXmlService {
       var protocolXmlElement = xmlDocument.createElement(this.EnabledProtocolElement);
       rootXmlElement.appendChild(protocolXmlElement);
       var protocolValueXmlElement = xmlDocument.createElement(this.ProtocolElement);
-      if (this.configuration.getProtocol() === 'opc-ua'/* == Protocol.OpcUA*/)
+      if (this.configuration.getProtocol() === 'OPC-UA'/* == Protocol.OpcUA*/)
       {
           protocolValueXmlElement.setAttribute(this.ValueAttribute, this.OpcAttributeValue);
           protocolXmlElement.appendChild(protocolValueXmlElement);
@@ -90,7 +90,7 @@ export class ConfigurationXmlService {
           adi.getNumberOfElements().toString());//adi.Element.GetElementInformation().Count().ToString(/*CultureInfo.InvariantCulture*/)
       adiXmlElement.appendChild(nbrOfElementsXmlElement);
       var offsetXmlElement = xmlDocument.createElement(this.BitOffsetElement);
-      offsetXmlElement.setAttribute(this.ValueAttribute, (adi.getOffset() * this.NumberOfBitsInByte).toString())//.ToString(/*CultureInfo.InvariantCulture*/));
+      offsetXmlElement.setAttribute(this.ValueAttribute, (adi.getStartAddress() * this.NumberOfBitsInByte).toString())//.ToString(/*CultureInfo.InvariantCulture*/));
       adiXmlElement.appendChild(offsetXmlElement);
       this.CreateElementXml(adi, adiXmlElement, xmlDocument);
   }

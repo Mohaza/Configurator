@@ -8,20 +8,27 @@ import { ConfigurationService } from '../services/data-services/configuration.se
   styleUrls: ['./display.component.css']
 })
 export class DisplayComponent implements OnInit {
-  protocol = 'opc-ua';
+  protocol = 'OPC-UA';
   highestAddress: number = 0;
   totalMemory: number = 0;
   numberOfTags: number = 0;
   opcUANamespaceUri = ""
 
-  constructor(public tagService: ServiceTagService, public config: ConfigurationService) { }
+  constructor(public tagService: ServiceTagService, public config: ConfigurationService) { 
+    this.config.setOpcUANamespaceUri(this.opcUANamespaceUri);
+    this.config.setProtocol(this.protocol)
+
+    
+  }
 
   ngOnInit() {
 
-    this.config.updateDisplayEvent.subscribe(() => {
+    this.tagService.updateDisplayEvent.subscribe(() => {
       this.highestAddress = this.config.getHighestAddress();
       this.totalMemory = this.config.getTotalSize();
       this.numberOfTags = this.config.getHighestAdi();
+      this.protocol =this.config.getProtocol();
+      this.opcUANamespaceUri = this.config.getOpcUANamespaceUri()
 
     });
 

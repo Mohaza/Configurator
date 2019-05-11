@@ -4,7 +4,7 @@
   <mat-menu #fileMenu="matMenu">
     <button mat-menu-item (click)="resetTags()">New</button>
     <button mat-menu-item (click)="fileInput.click()">Open</button>
-    <button mat-menu-item  (click)="generateXml()">Generate</button>
+    <button mat-menu-item  (click)="generateXml()" [disabled]="isEmpty === true" name="isEmpty" ngDefaultControl [(ngModel)]='isEmpty'>Generate</button>
   </mat-menu>
 
   <button mat-button [matMenuTriggerFor]="editMenu" class="menu">Edit</button>
@@ -27,10 +27,10 @@
   <button mat-icon-button class="folder-icon" title="Open..." (click)="fileInput.click()">
     <mat-icon>folder</mat-icon>
   </button>
-  <button mat-icon-button class="cloud-icon" title="Generate..." (click)="generateXml()">
+  <button mat-icon-button class="cloud-icon" title="Generate..." (click)="generateXml()" [disabled]="isEmpty === true">
     <mat-icon>cloud_download</mat-icon>
   </button>
-  <button mat-icon-button class="cloud-icon" title="Generate and send...">
+  <button mat-icon-button class="cloud-icon" title="Generate and send..." [disabled]="isEmpty === true">
     <mat-icon>cloud_upload</mat-icon>
   </button>
   <button mat-icon-button class="add-icon" (click)="openTag()" title="Add...">

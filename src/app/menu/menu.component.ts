@@ -5,6 +5,7 @@ import { ServiceTagService } from '../services/service-tag.service';
 import { ButtonSettingsService } from '../services/button-settings.service';
 import { ConfigurationXmlService } from '../services/data-services/configuration-xml.service';
 import { ConfigurationReaderService } from '../services/data-services/configuration-reader.service';
+import { ConfigurationService } from '../services/data-services/configuration.service';
 
 
 @Component({
@@ -15,8 +16,10 @@ import { ConfigurationReaderService } from '../services/data-services/configurat
 export class MenuComponent implements OnInit, OnDestroy {
   
   public buttonsBool : boolean = true;
+  public isEmpty : boolean = true;
 
-  constructor(public tag: MatDialog, public tagService: ServiceTagService, public buttonService: ButtonSettingsService, public configXml: ConfigurationXmlService, public configReader: ConfigurationReaderService) { 
+  constructor(public tag: MatDialog, public tagService: ServiceTagService, public buttonService: ButtonSettingsService,
+     public configXml: ConfigurationXmlService, public configReader: ConfigurationReaderService, public config: ConfigurationService) { 
 
   }
 
@@ -28,6 +31,16 @@ export class MenuComponent implements OnInit, OnDestroy {
     this.buttonService.enableButtonsSubject.subscribe(()=>{
       this.buttonsBool =false;
     });
+    this.buttonService.fileButtonsSubject.subscribe(()=>{
+      if(this.config.getAdiList().length ===0 ){
+        this.isEmpty = true;
+      }
+      else{
+        this.isEmpty = false;
+      }
+      
+
+    })
    
   }
 
@@ -41,9 +54,14 @@ export class MenuComponent implements OnInit, OnDestroy {
       data : {}
     });
     tagRef.afterClosed().subscribe(result => {
+      if(result == 'Confirm'){
+        this.isEmpty = false;
+
+      }
       //Restart dialog tag
-      if(result == 'Return'){
+      else if(result == 'Return'){
         this.openTag();
+        this.isEmpty = false;
       }
     })
 
@@ -54,6 +72,10 @@ export class MenuComponent implements OnInit, OnDestroy {
       this.buttonsBool = true;
 
     }
+    if(this.config.getAdiList().length === 0){
+      this.isEmpty = true;
+    }
+    this.tagService.updateDisplay();
   }
   modifyTag(){
       this.tagService.setModifyMode(true);
@@ -78,6 +100,8 @@ export class MenuComponent implements OnInit, OnDestroy {
 
   resetTags(){
     this.tagService.resetTags();
+    this.config.setAdiInstanceNum(0)
+    this.isEmpty = true;
     if(this.buttonService.getRowSelection() == -1){
       this.buttonsBool = true;
 
@@ -87,7 +111,9 @@ export class MenuComponent implements OnInit, OnDestroy {
 
   generateXml(){
       var fileName = "blobTest"
+      this.config.getAdiList().sort((a,b)=>a.getStartAddress()-b.getStartAddress());
       this.configXml.CreateConfigurationXml(fileName);
+
   }
 
   onFileSelected(event : any){

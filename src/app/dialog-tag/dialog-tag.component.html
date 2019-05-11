@@ -14,7 +14,7 @@
   </div>
   <br>
   <div>Number of elements: &nbsp;
-    <input matInput [(ngModel)]='numOfElements' type="number" step="1" min="1">
+    <input matInput [(ngModel)]='numOfElements' type="number" step="1" min="1" (change)="checkAddr()">
   </div>
   <br>
   <div>Direction: &nbsp;
@@ -30,7 +30,7 @@
         <mat-radio-button value="manually">Enter manually</mat-radio-button>
       </mat-radio-group>
       <div style="text-align:right">
-          <input matInput type="number" [(ngModel)]="startAddress" step="1" min="0" [disabled]="addressOption==='auto'">
+          <input matInput type="number" [(ngModel)]="startAddress" step="1" min="0" [disabled]="addressOption==='auto'" (change)="checkAddr()">
       </div>
     </div>
   </div>

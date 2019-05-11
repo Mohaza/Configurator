@@ -3,18 +3,11 @@ import { MatSort, MatTableDataSource } from '@angular/material';
 import { ServiceTagService } from '../services/service-tag.service';
 import { ButtonSettingsService } from '../services/button-settings.service';
 import { ConfigurationService } from '../services/data-services/configuration.service';
+import { TagElement } from '../models/tag-element';
 
 
-export interface tagElement {
-  name: string;
-  dataType: string;
-  elements: number;
-  startAddress: number;
-  endAddress: number;
-  nodeID: number;
-}
 
-const ELEMENT_DATA: tagElement[] = [];
+const ELEMENT_DATA: TagElement[] = [];
 
 @Component({
   selector: 'app-table-tag',
@@ -27,7 +20,7 @@ export class TableTagComponent implements OnInit, OnDestroy {
   MQTT: string[] = ['name', 'dataType', 'elements', 'startAddress', 'endAddress'];
   
   selectedRow: number = -1;
-  dataSource: MatTableDataSource<tagElement>;
+  dataSource: MatTableDataSource<TagElement>;
   displayedColumns = this.OPC_UA;
 
   @ViewChild(MatSort) sort: MatSort;
@@ -40,11 +33,9 @@ export class TableTagComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.tagService.newTagSubject.subscribe(adi => {
-      this.config.addAdi(adi);
-      this.config.updateDisplay();
       ELEMENT_DATA.push({
          name: adi.getName() , dataType: adi.getDataType().name,
-         elements: adi.getElementsNumber(), startAddress: adi.getOffset(),
+         elements: adi.getElementsNumber(), startAddress: adi.getStartAddress(),
          endAddress: adi.getEndAddress(), nodeID: adi.getOpcUANodeIdentifier() 
       });
       this.dataSource = new MatTableDataSource(ELEMENT_DATA);   
@@ -56,8 +47,11 @@ export class TableTagComponent implements OnInit, OnDestroy {
     })
 
     this.tagService.removeTagSubject.subscribe(() => {
+      let tagRemove = ELEMENT_DATA[this.selectedRow];
       ELEMENT_DATA.splice(this.selectedRow, 1);
-      this.config.getAdiList().splice(this.selectedRow-1)
+      let adiRemove =this.config.findAdi(tagRemove);
+      this.config.removeAdi(adiRemove);
+   
       this.dataSource = new MatTableDataSource(ELEMENT_DATA);   
       this.ngAfterViewInit(); 
       this.dataSource.sortData(this.dataSource.filteredData,this.dataSource.sort);
@@ -71,10 +65,10 @@ export class TableTagComponent implements OnInit, OnDestroy {
     });
 
     this.tagService.modifiedTagSubject.subscribe(adi => {
-      this.config.getAdiList()[this.selectedRow] = adi;
+      //this.config.getAdiList()[this.selectedRow] = adi;
       ELEMENT_DATA[this.selectedRow] = {
          name: adi.getName(), dataType: adi.getDataType().name,
-         elements: adi.getElementsNumber(), startAddress: adi.getOffset(),
+         elements: adi.getElementsNumber(), startAddress: adi.getStartAddress(),
          endAddress: adi.getEndAddress(), nodeID: adi.getOpcUANodeIdentifier()
        };
       this.dataSource = new MatTableDataSource(ELEMENT_DATA);   
@@ -93,16 +87,26 @@ export class TableTagComponent implements OnInit, OnDestroy {
     })
 
     this.tagService.protocolChangeSubject.subscribe(protocol =>{
-    (protocol === "opc-ua") ? this.displayedColumns =this.OPC_UA : this.displayedColumns =this.MQTT;
+    (protocol === "OPC-UA") ? this.displayedColumns =this.OPC_UA : this.displayedColumns =this.MQTT;
     })
 
+    this.tagService.fileToTableSubject.subscribe(() =>{
+      let list = this.config.getAdiList();
+      for(let i = 0; i < list.length; i++){
+        let adi = list[i];
+        ELEMENT_DATA.push({
+          name: adi.getName() , dataType: adi.getDataType().name,
+          elements: adi.getElementsNumber(), startAddress: adi.getStartAddress(),
+          endAddress: adi.getEndAddress(), nodeID: adi.getOpcUANodeIdentifier() 
+        })
+      }
+      this.dataSource = new MatTableDataSource(ELEMENT_DATA);   
+      this.ngAfterViewInit(); 
+      this.dataSource.sortData(this.dataSource.filteredData,this.dataSource.sort);
+    })
   }
 
-  updateData() {
-    
-    
-    this.ngAfterViewInit();
-  }
+  
   ngOnDestroy(): void {
 
     this.tagService.newTagSubject.unsubscribe();

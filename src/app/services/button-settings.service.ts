@@ -9,9 +9,16 @@ export class ButtonSettingsService {
   public enableButtonsSubject = new Subject<any>();
   public disableButtonsSubject = new Subject<any>();
 
+  public fileButtonsSubject = new Subject<any>();
+
+
   public rowSelected : number;
 
   constructor() { }
+
+  fileButtons(){
+    this.fileButtonsSubject.next();
+  }
 
  enableButtons(){
    this.enableButtonsSubject.next();

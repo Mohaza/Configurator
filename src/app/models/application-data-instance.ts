@@ -12,27 +12,26 @@ const MaximumNumberOfElements : number = 255;
 
  
  //BaseElement;
- const BitsPerByte : number = 8;
- const HighestBitIndexPerByte : number = BitsPerByte - 1;
+
 
 export class ApplicationDataInstance {
 //ApplicationDataInstance
-    private offset : number;
+    private startAddress : number;
     private name : string;
     private  adiNumber : number;
     private opcUANodeIdentifier : number;
 
     getName(){return this.name}
     setName(n : string){this.name = n}
-    getOffset(){return this.offset}
-    setOffset(num : number){this.offset = num}
+    getStartAddress(){return this.startAddress}
+    setStartAddress(num : number){this.startAddress = num}
     getAdiNumber(){return this.adiNumber}
     setAdiNumber(num : number){this.adiNumber = num}
     getOpcUANodeIdentifier(){ return this.opcUANodeIdentifier; }
     setOpcUANodeIdentifier(nodeId : number){ this.opcUANodeIdentifier = nodeId;}
 
     getDataTypeSize(){return this.dataType.size}
-    getEndAddress(){return this.offset + this.dataType.size -1;}
+    getEndAddress(){return this.startAddress + this.getTotalBytes()-1;}
     getTotalBytes(){
         return this.dataType.size * ((this.numberOfSubelements === 0 ) ? this.numberOfElements : this.numberOfSubelements)
     }
@@ -49,11 +48,23 @@ export class ApplicationDataInstance {
     //TypeOfData = dataType;
 
     getDataType(){return this.dataType}
-    setDataType(data : DataType){this.dataType = data;/* this.dataTypeId */}
+    setDataType(data : DataType){this.dataType = data;}
     getNumberOfSubelements(){return this.numberOfSubelements}
-    setNumberOfSubelements(n :number){this.numberOfSubelements = n}
     getNumberOfElements(){return this.numberOfElements}
-    setNumberOfElements(num : number){this.numberOfElements = num}
+    
+    setElementsNumber(num : number){
+        if(this.dataType.name === 'OCTET' || this.dataType.name === 'CHAR'){
+            num = num<MinimumNumberOfSubelements ? MinimumNumberOfSubelements : num;
+            num = num>MaximumNumberOfSubelements ? MaximumNumberOfSubelements : num;
+            this.numberOfSubelements = num;
+        }
+        else{
+            num = num<MinimumNumberOfElements ? MinimumNumberOfElements : num;
+            num = num>MaximumNumberOfElements ? MaximumNumberOfElements : num;
+            this.numberOfElements = num;
+        }
+
+    }
     getAccessRights(){return this.accessRights}
     setAccessRights(dir : string){this.accessRights = dir}
 
@@ -63,17 +74,10 @@ export class ApplicationDataInstance {
         this.name =adiName;
         this.accessRights = direction;
 
-        if(dataType.name === 'OCTET' || dataType.name === 'CHAR'){
-            numElements = numElements<MinimumNumberOfSubelements ? MinimumNumberOfSubelements : numElements;
-            numElements = numElements>MaximumNumberOfSubelements ? MaximumNumberOfSubelements : numElements;
-            this.numberOfSubelements = numElements;
-        }
-        else{
-            numElements = numElements<MinimumNumberOfElements ? MinimumNumberOfElements : numElements;
-            numElements = numElements>MaximumNumberOfElements ? MaximumNumberOfElements : numElements;
-            this.numberOfElements = numElements;
-        }
+        this.setElementsNumber(numElements);
+        
 
+       
     }
   /*  //baseElement
     convertBitsToBytes(numberOfBits : number)

@@ -17,8 +17,8 @@
 <div>
   <p class="protocolTitle">Supported protocol</p>
   <mat-radio-group aria-label="Select an protocol" [(ngModel)]='protocol' (change) = "updateProtocol()">
-    <mat-radio-button value="opc-ua">OPC-UA</mat-radio-button>
-    <mat-radio-button value="mqtt">MQTT</mat-radio-button>
+    <mat-radio-button value="OPC-UA">OPC-UA</mat-radio-button>
+    <mat-radio-button value="MQTT">MQTT</mat-radio-button>
   </mat-radio-group>
   <div class="namespace">Namespace URI:&nbsp;
     <input matInput type="text" [disabled]="protocol==='mqtt'" [(ngModel)]='opcUANamespaceUri'>
