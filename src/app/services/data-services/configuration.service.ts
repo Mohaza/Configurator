@@ -106,17 +106,15 @@ export class ConfigurationService {
     console.log(this.address);
 
   }
-  setManuallyStartAddr(start : number, end: number){
-    var count = 0;
-    var totalAddr = start+ end;
-    for(let i = 0; i < i+1; i++){
-      if(!this.address[i]){
-        count++;
-      }
-      else{
-        count = 0;
+  
+  occupiedAddress(start : number, size: number){
+    for(let i = start; i < size; i++){
+      if(this.address[i]){
+        console.log(i)
+        return true;
       }
     }
+    return false;
 
   }
   addAdi(adi : ApplicationDataInstance){
@@ -137,20 +135,34 @@ export class ConfigurationService {
   }
   removeAdi(adi:ApplicationDataInstance){
     console.log(adi);
+    let adiEndAddress = adi.getEndAddress();
     this.highestAdi--;
     this.totalSize -= adi.getTotalBytes();
     this.removeStartAddress(adi.getStartAddress(),adi.getEndAddress())
     let index =this.adiList.findIndex(x => x.getAdiNumber() === adi.getAdiNumber());
     this.adiList.splice(index,1);
-    this.highestAddress = 0;
-    for(let i of this.adiList){
-      this.highestAddress = i.getEndAddress() > this.highestAddress ? this.highestAddress = i.getEndAddress() : this.highestAddress;
+    if(this.highestAddress === adiEndAddress){
+      this.highestAddress = 0;
+      for(let adi of this.adiList){
+      this.highestAddress = adi.getEndAddress() > this.highestAddress ? this.highestAddress = adi.getEndAddress() : this.highestAddress;
+      }
     }
 
-
+  }
+  recoverFromAdi(adi : ApplicationDataInstance){
+    this.totalSize -=adi.getTotalBytes();
+    this.removeStartAddress(adi.getStartAddress(),adi.getEndAddress())
+    
   }
   //sätt tillbaka allt från dialog-tag, samt fixa address genom modifiera
   modifyAdi(adi : ApplicationDataInstance,index: number){
+    this.totalSize +=adi.getTotalBytes();
+    this.highestAddress = 0;
+    for(let adi of this.adiList){
+      this.highestAddress = adi.getEndAddress() > this.highestAddress ? this.highestAddress = adi.getEndAddress() : this.highestAddress;
+    }
+    this.setStartAddress(adi.getStartAddress(),adi.getEndAddress())
+
     this.adiList[index] = adi;
 
   }

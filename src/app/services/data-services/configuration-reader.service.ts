@@ -84,7 +84,7 @@ export class ConfigurationReaderService {
       if (adi.getEndAddress() > highestAddress) {
         highestAddress = adi.getEndAddress();
       }
-      highestInstanceNum = highestInstanceNum < instanceNbr ? highestInstanceNum = instanceNbr : highestInstanceNum
+      highestInstanceNum = highestInstanceNum < instanceNbr ? instanceNbr : highestInstanceNum
       for(let i = adi.getStartAddress(); i <= adi.getEndAddress(); i++){
         address[i] = true
       }
@@ -102,6 +102,7 @@ export class ConfigurationReaderService {
     this.config.setOpcUANamespaceUri(appLocalNamespaceURI)
 
     //set up configuration
+    this.tagService.updateTableCol(protocol);
     this.tagService.updateDisplay();
     this.tagService.fileToTable();
     this.buttonService.fileButtons();

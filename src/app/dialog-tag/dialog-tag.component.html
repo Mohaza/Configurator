@@ -8,13 +8,13 @@
   </div>
   <br>
   <div>Data type: &nbsp;
-    <mat-select class='form-control' [(ngModel)]='selectedDataType'>
+    <mat-select class='form-control' [(ngModel)]='selectedDataType' (selectionChange)="checkValues()">
       <mat-option [value]="dataType" *ngFor="let dataType of dataTypes">{{dataType.name}}</mat-option>
     </mat-select>
   </div>
   <br>
   <div>Number of elements: &nbsp;
-    <input matInput [(ngModel)]='numOfElements' type="number" step="1" min="1" (change)="checkAddr()">
+    <input matInput [(ngModel)]='numOfElements' type="number" step="1" min="1" (change)="checkValues()">
   </div>
   <br>
   <div>Direction: &nbsp;
@@ -25,12 +25,12 @@
   <br>
   <div>Start address: &nbsp;
     <div style="text-align:center">
-      <mat-radio-group aria-label="Select an start address" [(ngModel)]='addressOption'>
+      <mat-radio-group aria-label="Select an start address" [(ngModel)]='addressOption' (change)="checkValues()">
         <mat-radio-button value="auto">First available &nbsp;</mat-radio-button>
         <mat-radio-button value="manually">Enter manually</mat-radio-button>
       </mat-radio-group>
       <div style="text-align:right">
-          <input matInput type="number" [(ngModel)]="startAddress" step="1" min="0" [disabled]="addressOption==='auto'" (change)="checkAddr()">
+          <input matInput type="number" [(ngModel)]="startAddress" step="1" min="0" [disabled]="addressOption==='auto'" (change)="checkValues()">
       </div>
     </div>
   </div>
@@ -41,8 +41,8 @@
 </mat-dialog-content>
 <mat-divider></mat-divider>
 <mat-dialog-actions>
-  <button mat-raised-button [disabled]="!tagName"  (click)="onCloseConfirm()">Save</button>&nbsp;
-  <button mat-raised-button [disabled]="!tagName"  (click)="onCloseReturn()">Save &
+  <button mat-raised-button [disabled]="!tagName || numOfElements<1 || occupiedAddress || totalBytes>512"  (click)="onCloseConfirm()">Save</button>&nbsp;
+  <button mat-raised-button [disabled]="!tagName || numOfElements<1 || occupiedAddress || totalBytes>512"  (click)="onCloseReturn()">Save &
     Add</button>&nbsp;
   <button mat-raised-button (click)="onCloseCancel()">Cancel</button>
 </mat-dialog-actions>

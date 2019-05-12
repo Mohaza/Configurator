@@ -140,7 +140,6 @@ export class ConfigurationXmlService {
       link.click();
 
       window.URL.revokeObjectURL(url);
-      //window.URL.revokeObjectURL(url);
      // xmlDocument.Save(filePath);
   }
 

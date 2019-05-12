@@ -101,6 +101,7 @@ export class MenuComponent implements OnInit, OnDestroy {
   resetTags(){
     this.tagService.resetTags();
     this.config.setAdiInstanceNum(0)
+    this.config.getAddress().length = 0;
     this.isEmpty = true;
     if(this.buttonService.getRowSelection() == -1){
       this.buttonsBool = true;

@@ -30,13 +30,17 @@ export class TableTagComponent implements OnInit, OnDestroy {
     this.dataSource.filter = "";
 
   }
+  prettyNumber(num : number){
+    return num.toString().replace(/(\d)(?=(\d{3})+$)/g, '$1 ');
+  }
 
   ngOnInit() {
     this.tagService.newTagSubject.subscribe(adi => {
       ELEMENT_DATA.push({
          name: adi.getName() , dataType: adi.getDataType().name,
          elements: adi.getElementsNumber(), startAddress: adi.getStartAddress(),
-         endAddress: adi.getEndAddress(), nodeID: adi.getOpcUANodeIdentifier() 
+         endAddress: adi.getEndAddress(), nodeID: adi.getOpcUANodeIdentifier()
+
       });
       this.dataSource = new MatTableDataSource(ELEMENT_DATA);   
       this.ngAfterViewInit(); 
@@ -91,9 +95,7 @@ export class TableTagComponent implements OnInit, OnDestroy {
     })
 
     this.tagService.fileToTableSubject.subscribe(() =>{
-      let list = this.config.getAdiList();
-      for(let i = 0; i < list.length; i++){
-        let adi = list[i];
+      for(let adi of this.config.getAdiList()){
         ELEMENT_DATA.push({
           name: adi.getName() , dataType: adi.getDataType().name,
           elements: adi.getElementsNumber(), startAddress: adi.getStartAddress(),
