@@ -1,50 +1,65 @@
-<input style="display: none" type="file" (change)="onFileSelected($event)" #fileInput>
+<input style="display: none" type="file" accept="text/xml" (change)="onFileSelected($event)" #fileInput>
 <div>
+   <!-- mat-button [matMenuTriggerFor], is a file button that open up fileMenu -->
   <button mat-button [matMenuTriggerFor]="fileMenu" class="menu">File</button>
+  <!-- mat-menu opens up a group of menu items that is clickable, it is the fileMenu-->
   <mat-menu #fileMenu="matMenu">
+     <!-- mat-menu-item is a item inside a group of items from fileMenu -->
     <button mat-menu-item (click)="resetTags()">New</button>
     <button mat-menu-item (click)="fileInput.click()">Open</button>
     <button mat-menu-item  (click)="generateXml()" [disabled]="isEmpty === true" name="isEmpty" ngDefaultControl [(ngModel)]='isEmpty'>Generate</button>
   </mat-menu>
-
+   <!-- mat-button [matMenuTriggerFor], is a edit button that open up editMenu -->
   <button mat-button [matMenuTriggerFor]="editMenu" class="menu">Edit</button>
+    <!-- mat-menu opens up a group of menu items that is clickable, it is the editMenu-->
   <mat-menu #editMenu="matMenu">
+   <!-- mat-menu-item is a item inside a group of items from editMenu -->
     <button mat-menu-item (click)="openTag()">Add</button>
     <button mat-menu-item name="buttonsBool" ngDefaultControl [(ngModel)]='buttonsBool' [disabled]="buttonsBool === true" (click)="modifyTag()">Modify</button>
     <button mat-menu-item (click)="removeTag()" [disabled]="buttonsBool === true">Remove</button>
   </mat-menu>
-
+   <!-- mat-button [matMenuTriggerFor], is a file button that open up helpMenu -->
   <button mat-button [matMenuTriggerFor]="helpMenu" class="menu">Help</button>
+  <!-- mat-menu opens up a group of menu items that is clickable, it is the helpMenu-->
   <mat-menu #helpMenu="matMenu">
+   <!-- mat-menu-item is a item inside a group of items from helpMenu -->
     <button mat-menu-item onclick="location.href='https://www.anybus.com/';">Help</button>
     <button mat-menu-item>About</button>
   </mat-menu>
 </div>
 <div>
+    <!-- mat-icon-button is an icon button for reseting -->
   <button mat-icon-button class="file-icon" title="New" (click)="resetTags()">
     <mat-icon>insert_drive_file</mat-icon>
   </button>
+    <!-- mat-icon-button is an icon button for opening -->
   <button mat-icon-button class="folder-icon" title="Open..." (click)="fileInput.click()">
     <mat-icon>folder</mat-icon>
   </button>
+    <!-- mat-icon-button is an icon button for generating -->
   <button mat-icon-button class="cloud-icon" title="Generate..." (click)="generateXml()" [disabled]="isEmpty === true">
     <mat-icon>cloud_download</mat-icon>
   </button>
+     <!-- mat-icon-button is an icon button for generating and sending -->
   <button mat-icon-button class="cloud-icon" title="Generate and send..." [disabled]="isEmpty === true">
     <mat-icon>cloud_upload</mat-icon>
   </button>
+    <!-- mat-icon-button is an icon button for adding -->
   <button mat-icon-button class="add-icon" (click)="openTag()" title="Add...">
     <mat-icon>add</mat-icon>
   </button>
+    <!-- mat-icon-button is an icon button for modifying -->
   <button mat-icon-button class="create-icon" title="Modify..." [disabled]="buttonsBool === true" (click)="modifyTag()">
     <mat-icon>create</mat-icon>
   </button>
+      <!-- mat-icon-button is an icon button for removing -->
   <button mat-icon-button class="remove-icon" title="Remove" (click)="removeTag()" [disabled]="buttonsBool === true">
     <mat-icon>remove</mat-icon>
   </button>
 </div>
 <mat-divider></mat-divider>
 <div>
+ <!-- mat-raised-button for adding, removing and modifying -->
 <button mat-raised-button class="button" (click)="openTag()">Add...</button>
 <button mat-raised-button class="button1" [disabled]="buttonsBool === true" (click)="modifyTag()">Modify...</button>
 <button mat-raised-button class="button2" (click)="removeTag()" [disabled]="buttonsBool === true">Remove</button>

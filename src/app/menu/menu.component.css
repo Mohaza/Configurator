@@ -18,22 +18,22 @@
 }
 .button{
     position: absolute;
-    bottom: 30px;
-    left: 20px;
-    width: 100px;
+    bottom: 3%;
+    left: 2%;
+    width: 7%;
     background-color: gainsboro
   }
   .button1{
     position: absolute;
-    bottom: 30px;
-    left: 160px;
-    width: 100px;
+    bottom: 3%;
+    left: 11%;
+    width: 7%;
     background-color: gainsboro
   }
   .button2{
     position: absolute;
-    bottom: 30px;
-    left: 300px;
-    width: 100px;
+    bottom: 3%;
+    left: 20%;
+    width: 7%;
     background-color: gainsboro
   } 

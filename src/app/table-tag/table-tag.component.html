@@ -3,48 +3,50 @@
   <p>Tags</p>
 </div>
 <div class="filter">
+    <!-- matInput is a input to filter the tags inside the table -->
     <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search" >
 </div>
 <p class="warning" [hidden]="dataSource.filter ===''">Obs! need to be empty to select or remove.</p> 
 
 <div class="table-container">
-
+ <!-- mat-table creates a table, matSort makes the table sortable -->
   <table mat-table [dataSource]="dataSource" matSort>
+     <!-- matColumnDef creates columns, this would be the name column header -->
     <ng-container matColumnDef="name">
       <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="sortHeader()"> Name </th>
       <td mat-cell *matCellDef="let tag"> {{tag.name}} </td>
     </ng-container>
-
+     <!-- matColumnDef creates columns, this would be the dataType column header -->
     <ng-container matColumnDef="dataType">
       <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="sortHeader()"> Data Type </th>
       <td mat-cell *matCellDef="let tag"> {{tag.dataType}} </td>
     </ng-container>
-
+     <!-- matColumnDef creates columns, this would be the elements column header -->
     <ng-container matColumnDef="elements">
       <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="sortHeader()"> # of Elements </th>
       <td mat-cell *matCellDef="let tag"> {{tag.elements}} </td>
     </ng-container>
-
+     <!-- matColumnDef creates columns, this would be the direction column header -->
     <ng-container matColumnDef="direction">
       <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="sortHeader()"> Direction </th>
       <td mat-cell *matCellDef="let tag"> {{tag.direction}} </td>
     </ng-container>
-
+     <!-- matColumnDef creates columns, this would be the startAddress column header -->
     <ng-container matColumnDef="startAddress">
       <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="sortHeader()"> Start Address </th>
       <td mat-cell *matCellDef="let tag"> {{tag.startAddress}} </td>
     </ng-container>
-
+     <!-- matColumnDef creates columns, this would be the endAddress column header -->
     <ng-container matColumnDef="endAddress">
       <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="sortHeader()"> End Address </th>
       <td mat-cell *matCellDef="let tag"> {{tag.endAddress}} </td>
     </ng-container>
-
+     <!-- matColumnDef creates columns, this would be the nodeID column header -->
     <ng-container matColumnDef="nodeID">
       <th mat-header-cell *matHeaderCellDef mat-sort-header (click)="sortHeader()"> OPC UA Node ID </th>
       <td mat-cell *matCellDef="let tag"> {{tag.nodeID}} </td>
     </ng-container>
-
+    <!-- mat-header-row and matRowDef are for creating rows, and select rows -->
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row = index; columns: displayedColumns;" [class.active]="row == selectedRow" (click)="setClickedRow(row)" ></tr>
   </table>

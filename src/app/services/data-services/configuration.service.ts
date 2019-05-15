@@ -8,12 +8,9 @@ import { TagElement } from 'src/app/models/tag-element';
   providedIn: 'root'
 })
 
-
+//configuration
 export class ConfigurationService {
- //configuration
-
-
- 
+ //All datatypes names,sizes and identities
  dataTypes : DataType[] = [ 
   {name: 'BOOL',size: 1, id:0},{name: 'SINT8',size: 1, id:1 },{ name: 'SINT16', size: 2 , id:2},
   {name: 'SINT32',size: 4, id:3 },{name: 'UINT8',size: 1, id:4 },{name: 'UINT16',size: 2, id:5},
@@ -21,15 +18,21 @@ export class ConfigurationService {
   {name: 'BITS16',size: 2, id:10 },{name: 'BITS32',size: 4, id:11},{name: 'OCTET',size: 1 , id:12},
   {name: 'FLOAT',size: 4, id:18} 
 ]
+//protocol variable
   private protocol :string
+//OPC-UA namespace URI variable
   private  opcUANamespaceUri :string;
-//ApplicationDataObject
+//list of ApplicationDataInstances(tags)
   private adiList : ApplicationDataInstance[] = [];
+//highest address variable
   private highestAddress : number = 0;
+//total amount of tags variable
   private highestAdi : number = 0;
+//total bytes used variable
   private totalSize : number = 0;
-
+//number of created tags variable
   private adiInstanceNum :number = 0;
+//address array variable
   private address : boolean[] = []
 
 

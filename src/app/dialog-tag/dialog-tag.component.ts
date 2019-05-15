@@ -76,6 +76,7 @@ export class DialogTagComponent implements OnInit {
       adi.setStartAddress(this.startAddress);
       this.config.addAdi(adi);
       this.tagService.updateDisplay();
+      //call method from dialog-tag.component.ts
       this.tagService.addTag(adi);
     }
 
@@ -104,15 +105,22 @@ export class DialogTagComponent implements OnInit {
     this.tagRef.close('Cancel');
   }
   checkValues() {
+    //reassure that number of elements is not undefined
     this.numOfElements = !this.numOfElements ? 1 : this.numOfElements;
+    //reassure that number of elements is not over 255 value
     this.numOfElements = this.numOfElements > 255 ? 255 : this.numOfElements;
+    //reassure that start address is not undefined
+    this.startAddress = !this.startAddress ? 0 : this.startAddress;
+    //retrieve the current total bytes of the configurator
     this.totalBytes = this.config.getTotalSize() + (this.selectedDataType.size * this.numOfElements);
     if (this.addressOption === 'manually') {
-      //härrr
-      this.occupiedAddress = this.config.occupiedAddress(this.startAddress,this.numOfElements * this.selectedDataType.size+this.startAddress)
+    //check that the chosen start address is occupied, then it will disable buttons
+      this.occupiedAddress = this.config.occupiedAddress(this.startAddress,
+        this.numOfElements * this.selectedDataType.size+this.startAddress)
     }
     else {
       if(this.tagService.getModifyMode()){
+      //if a tag is being modified return its original value
         this.startAddress = this.data.startAddress;
       }
       else{

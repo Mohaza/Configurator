@@ -3,46 +3,46 @@
       display: flex;
       flex-direction: column;
       position: absolute;
-      left: 650px;
-      top: 160px;
+      left: 43%;
+      top: 22%;
     }
   
   .namespace{
       position: absolute;
-      left: 780px;
-      top: 160px;
+      left: 52.5%;
+      top: 22%
     }
   
   .protocolTitle{
       position: absolute;
-      left: 650px;
-      top: 110px;
+      left: 42%;
+      top: 15%;
   }
   input{
       width: 400px;
   }
   .highest-address{
     position: absolute;
-    left: 50px;
-    top: 160px
+    left: 3%;
+    top: 21%
   }
   .memory{
     position: absolute;
-    left: 50px;
-    top: 185px
+    left: 3%;
+    top: 25%
   }
   .numTags{
     position: absolute;
-    left: 50px;
-    top: 210px
+    left: 3%;
+    top: 29%
   }
   .statusTitle{
     position: absolute;
-    left: 40px;
-    top: 110px
+    left: 2%;
+    top: 15%
   }
   .infoTitle{
     position: absolute;
-    left: 30px;
-    top: 90px
+    left: 1.5%;
+    top: 12%
   }

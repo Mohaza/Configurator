@@ -5,27 +5,27 @@ table{
  
 }
 .table-container{
-    height: 350px;
+    height: 47%;
     overflow: auto;
     position: absolute;
-    width: 1450px;
-    bottom: 80px;
-    left: 20px;
+    width: 95%;
+    bottom: 10%;
+    left: 2%;
     background-color: lightblue;
-    padding: 10px;
+    padding: 0.5%;
     border: 1px solid rgb(37, 34, 34);
 }
 .filter{
     position: absolute;
-    top: 273px;
-    left: 500px;
-    width: 400px;
+    top: 36.5%;
+    left: 36%;
+    width: 20%;
     
 }
 .warning{
     position: absolute;
-    top: 260px;
-    left: 905px;
+    top: 35%;
+    left: 58.5%;
     color: red
 }
 input{
@@ -34,12 +34,12 @@ input{
 }
 .tag-section{
     position: absolute;
-    top: 265px;
-    left: 30px;
+    top: 35%;
+    left: 2%;
 }
 .mat-divider{
     position: absolute;
-    top: 270px;
+    top: 36%;
     width: 99%
 }
 tr.active{

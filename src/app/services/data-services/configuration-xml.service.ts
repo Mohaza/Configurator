@@ -39,7 +39,7 @@ export class ConfigurationXmlService {
       var date = new Date();
       return this.timePipe.transform(date, 'yyyy-MM-dd hh:mm:ss',"UTC+2");
   }
-
+//Through Document interface, the creation of the tree structure
   private CreateXml(  xmlDocument : Document){
       var rootXmlElement = xmlDocument.createElement(this.RootElement);
       rootXmlElement.setAttribute(this.CreatedAttribute, this.generateDateNow());
@@ -47,7 +47,7 @@ export class ConfigurationXmlService {
       var protocolXmlElement = xmlDocument.createElement(this.EnabledProtocolElement);
       rootXmlElement.appendChild(protocolXmlElement);
       var protocolValueXmlElement = xmlDocument.createElement(this.ProtocolElement);
-      if (this.configuration.getProtocol() === 'OPC-UA'/* == Protocol.OpcUA*/)
+      if (this.configuration.getProtocol() === 'OPC-UA')
       {
           protocolValueXmlElement.setAttribute(this.ValueAttribute, this.OpcAttributeValue);
           protocolXmlElement.appendChild(protocolValueXmlElement);
@@ -64,13 +64,14 @@ export class ConfigurationXmlService {
       opcUAXmlElement.appendChild(opcUAValueXmlElement);
       this.CreateApplicationDataObjectXml( rootXmlElement, xmlDocument);
   }
+  //through 
   private CreateApplicationDataObjectXml( parent: HTMLElement, xmlDocument : XMLDocument){
       var applicationDataObjectXmlElement = xmlDocument.createElement(this.ApplicationDataObjectElement);
       parent.appendChild(applicationDataObjectXmlElement);
       var objectNbrXmlElement = xmlDocument.createElement(this.ObjectNbrElement);
       objectNbrXmlElement.setAttribute(this.ValueAttribute, this.ApplicationDataObjectNbrAttributeValue);
       applicationDataObjectXmlElement.appendChild(objectNbrXmlElement);
-      for (let adi of this.configuration.getAdiList()/*applicationDataObject.AdiList*/) {
+      for (let adi of this.configuration.getAdiList()) {
           this.CreateApplicationDataInstanceXml(adi, applicationDataObjectXmlElement, xmlDocument);
       }
   }
@@ -79,10 +80,10 @@ export class ConfigurationXmlService {
       var adiXmlElement = xmlDocument.createElement(this.AdiElement);
       parent.appendChild(adiXmlElement);
       var adiNumberXmlElement = xmlDocument.createElement(this.AdiNumberElement);
-      adiNumberXmlElement.setAttribute(this.ValueAttribute, adi.getAdiNumber().toString()); //adi.AdiNumber.Value.ToString(/*CultureInfo.InvariantCulture*/
+      adiNumberXmlElement.setAttribute(this.ValueAttribute, adi.getAdiNumber().toString()); 
       adiXmlElement.appendChild(adiNumberXmlElement);
       var nameXmlElement = xmlDocument.createElement(this.NameElement);
-      nameXmlElement.setAttribute(this.ValueAttribute, adi.getName() );//adi.Name
+      nameXmlElement.setAttribute(this.ValueAttribute, adi.getName() );
       adiXmlElement.appendChild(nameXmlElement);
       var nbrOfElementsXmlElement = xmlDocument.createElement(this.NbrOfElementsElement);
       nbrOfElementsXmlElement.setAttribute(
@@ -121,26 +122,21 @@ export class ConfigurationXmlService {
   {
       //created DOM object
       let xmlDocument  = document.implementation.createDocument("","",null)
+      //producing the DOM tree structure
       this.CreateXml( xmlDocument);
-
-     
-      
-
+      //Document to XML file
       var xmlSerializer = new XMLSerializer();
-      //xml inside a string
+      //XML inside a string
       var sXML = xmlSerializer.serializeToString(xmlDocument);
-      console.log(sXML);
+      //creating file and downloading through a web link
       const blob = new Blob([sXML],{type : 'application/xml'})
       const url = window.URL.createObjectURL(blob);
       let link: HTMLAnchorElement = <HTMLAnchorElement>document.createElement("a");
-
       link.href = url;
       link.download = fileName + '.xml';
-      
       link.click();
 
       window.URL.revokeObjectURL(url);
-     // xmlDocument.Save(filePath);
   }
 
 }

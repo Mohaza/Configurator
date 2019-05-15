@@ -1,23 +1,28 @@
 <div style="text-align:left">Add Tag</div>
 <mat-divider></mat-divider>
 <div>Tag values</div>
+  <!-- mat-dialog-content is the content for the popup tag -->
 <mat-dialog-content>
   <br>
   <div>Name: &nbsp;
+      <!-- matInput is the input of the tag name -->
     <input matInput type="text" [(ngModel)]='tagName'>
   </div>
   <br>
   <div>Data type: &nbsp;
+     <!-- mat-select is the seletion of data-types -->
     <mat-select class='form-control' [(ngModel)]='selectedDataType' (selectionChange)="checkValues()">
       <mat-option [value]="dataType" *ngFor="let dataType of dataTypes">{{dataType.name}}</mat-option>
     </mat-select>
   </div>
   <br>
   <div>Number of elements: &nbsp;
+    <!-- matInput is the input for the number of elements -->
     <input matInput [(ngModel)]='numOfElements' type="number" step="1" min="1" (change)="checkValues()">
   </div>
   <br>
   <div>Direction: &nbsp;
+    <!-- mat-select is the seletion of gateway direction -->
     <mat-select class='form-control' [(ngModel)]='direction'>
       <mat-option value="1">Gateway to OPC-UA/MQTT</mat-option>
     </mat-select>
@@ -25,24 +30,31 @@
   <br>
   <div>Start address: &nbsp;
     <div style="text-align:center">
+    <!-- mat-radio-button is for the radio buttons to select, if start address will be set manually or automatically -->
       <mat-radio-group aria-label="Select an start address" [(ngModel)]='addressOption' (change)="checkValues()">
         <mat-radio-button value="auto">First available &nbsp;</mat-radio-button>
         <mat-radio-button value="manually">Enter manually</mat-radio-button>
       </mat-radio-group>
       <div style="text-align:right">
+    <!-- matInput is the input and display of the start address -->
           <input matInput type="number" [(ngModel)]="startAddress" step="1" min="0" [disabled]="addressOption==='auto'" (change)="checkValues()">
       </div>
     </div>
   </div>
   <br>
+    <!-- size of tag -->
   <div>Size of tag: &nbsp;{{selectedDataType.size * numOfElements}}&nbsp;byte
     
   </div>
 </mat-dialog-content>
+    <!-- mat-divider for a line divider -->
 <mat-divider></mat-divider>
+    <!-- mat-dialog-actions for action section of the popup tag -->
 <mat-dialog-actions>
-  <button mat-raised-button [disabled]="!tagName || numOfElements<1 || occupiedAddress || totalBytes>512"  (click)="onCloseConfirm()">Save</button>&nbsp;
-  <button mat-raised-button [disabled]="!tagName || numOfElements<1 || occupiedAddress || totalBytes>512"  (click)="onCloseReturn()">Save &
-    Add</button>&nbsp;
+   <!-- mat-raised-button are buttons for saving,saving and adding,and canceling tag -->
+  <button mat-raised-button [disabled]="!tagName || numOfElements<1 || startAddress<0 || occupiedAddress || totalBytes>512"
+      (click)="onCloseConfirm()">Save</button>&nbsp;
+  <button mat-raised-button [disabled]="!tagName || numOfElements<1 || startAddress<0 || occupiedAddress || totalBytes>512"
+      (click)="onCloseReturn()">Save & Add</button>&nbsp;
   <button mat-raised-button (click)="onCloseCancel()">Cancel</button>
 </mat-dialog-actions>
