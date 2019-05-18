@@ -8,6 +8,8 @@
     <button mat-menu-item (click)="resetTags()">New</button>
     <button mat-menu-item (click)="fileInput.click()">Open</button>
     <button mat-menu-item  (click)="generateXml()" [disabled]="isEmpty === true" name="isEmpty" ngDefaultControl [(ngModel)]='isEmpty'>Generate</button>
+    <button mat-menu-item  (click)="sendConfiguration()" [disabled]="isEmpty === true">Send...</button>
+
   </mat-menu>
    <!-- mat-button [matMenuTriggerFor], is a edit button that open up editMenu -->
   <button mat-button [matMenuTriggerFor]="editMenu" class="menu">Edit</button>
@@ -41,7 +43,7 @@
     <mat-icon>cloud_download</mat-icon>
   </button>
      <!-- mat-icon-button is an icon button for generating and sending -->
-  <button mat-icon-button class="cloud-icon" title="Generate and send..." [disabled]="isEmpty === true">
+  <button mat-icon-button class="cloud-icon" title="Generate and send..." [disabled]="isEmpty === true" (click)="sendConfiguration()">
     <mat-icon>cloud_upload</mat-icon>
   </button>
     <!-- mat-icon-button is an icon button for adding -->

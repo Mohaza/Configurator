@@ -29,6 +29,8 @@ import { ConfigurationXmlService } from './services/data-services/configuration-
 import { ConfigurationService } from './services/data-services/configuration.service';
 import { DatePipe } from '@angular/common';
 import { ConfigurationReaderService } from './services/data-services/configuration-reader.service';
+import { HttpClientModule } from '@angular/common/http';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -53,7 +55,7 @@ import { ConfigurationReaderService } from './services/data-services/configurati
     MatDividerModule,
     MatTableModule,
     MatSortModule,
-    
+    HttpClientModule
   ],
   entryComponents: [DialogTagComponent],
   providers: [

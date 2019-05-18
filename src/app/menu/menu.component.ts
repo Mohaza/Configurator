@@ -6,6 +6,9 @@ import { ButtonSettingsService } from '../services/button-settings.service';
 import { ConfigurationXmlService } from '../services/data-services/configuration-xml.service';
 import { ConfigurationReaderService } from '../services/data-services/configuration-reader.service';
 import { ConfigurationService } from '../services/data-services/configuration.service';
+import { HttpClient } from '@angular/common/http';
+
+
 
 
 @Component({
@@ -19,7 +22,8 @@ export class MenuComponent implements OnInit, OnDestroy {
   public isEmpty : boolean = true;
 
   constructor(public tag: MatDialog, public tagService: ServiceTagService, public buttonService: ButtonSettingsService,
-     public configXml: ConfigurationXmlService, public configReader: ConfigurationReaderService, public config: ConfigurationService) { 
+     public configXml: ConfigurationXmlService, public configReader: ConfigurationReaderService, 
+     public config: ConfigurationService,public http: HttpClient) { 
 
   }
 
@@ -123,6 +127,22 @@ export class MenuComponent implements OnInit, OnDestroy {
     this.configReader.readConfiguration(selectedFile);
     
 
+  }
+  sendConfiguration(){
+    var config = {
+      host: '192.168.0.2',
+      user: 'FTP-User',
+      password: 'ftptest123',
+      data: this.configXml.generateXmlToString()
+    }
+
+    var http =this.http.post('/server',config);
+    http.subscribe(data => {
+      console.log(data);
+      
+    },error => {
+      console.log(error); // The error is here
+    })
   }
 
 }

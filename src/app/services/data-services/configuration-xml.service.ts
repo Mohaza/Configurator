@@ -118,7 +118,7 @@ export class ConfigurationXmlService {
       baseElementXmlElement.appendChild(nbrOfSubelementsXmlElement);
   }
 
-  public CreateConfigurationXml(fileName : string)
+  public generateXmlToString()
   {
       //created DOM object
       let xmlDocument  = document.implementation.createDocument("","",null)
@@ -128,15 +128,20 @@ export class ConfigurationXmlService {
       var xmlSerializer = new XMLSerializer();
       //XML inside a string
       var sXML = xmlSerializer.serializeToString(xmlDocument);
-      //creating file and downloading through a web link
-      const blob = new Blob([sXML],{type : 'application/xml'})
-      const url = window.URL.createObjectURL(blob);
-      let link: HTMLAnchorElement = <HTMLAnchorElement>document.createElement("a");
-      link.href = url;
-      link.download = fileName + '.xml';
-      link.click();
+      return sXML
+  }
+  public CreateConfigurationXml(fileName : string){
+    var sXML = this.generateXmlToString();
+    //creating file and downloading through a web link
+    const blob = new Blob([sXML],{type : 'application/xml'})
+    const url = window.URL.createObjectURL(blob);
+    let link: HTMLAnchorElement = <HTMLAnchorElement>document.createElement("a");
+    link.href = url;
+    link.download = fileName + '.xml';
+    link.click();
 
-      window.URL.revokeObjectURL(url);
+    window.URL.revokeObjectURL(url);
+
   }
 
 }
