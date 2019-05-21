@@ -6,7 +6,8 @@ import { ButtonSettingsService } from '../services/button-settings.service';
 import { ConfigurationXmlService } from '../services/data-services/configuration-xml.service';
 import { ConfigurationReaderService } from '../services/data-services/configuration-reader.service';
 import { ConfigurationService } from '../services/data-services/configuration.service';
-import { HttpClient } from '@angular/common/http';
+import { DialogFtpComponent } from '../dialog-ftp/dialog-ftp.component';
+
 
 
 
@@ -21,9 +22,9 @@ export class MenuComponent implements OnInit, OnDestroy {
   public buttonsBool : boolean = true;
   public isEmpty : boolean = true;
 
-  constructor(public tag: MatDialog, public tagService: ServiceTagService, public buttonService: ButtonSettingsService,
+  constructor(public dialog: MatDialog, public tagService: ServiceTagService, public buttonService: ButtonSettingsService,
      public configXml: ConfigurationXmlService, public configReader: ConfigurationReaderService, 
-     public config: ConfigurationService,public http: HttpClient) { 
+     public config: ConfigurationService) { 
 
   }
 
@@ -53,7 +54,7 @@ export class MenuComponent implements OnInit, OnDestroy {
    
   }
   openTag(){
-    let tagRef = this.tag.open(DialogTagComponent, {
+    let tagRef = this.dialog.open(DialogTagComponent, {
       width: '600px', disableClose: true,
       data : {}
     });
@@ -84,7 +85,7 @@ export class MenuComponent implements OnInit, OnDestroy {
   modifyTag(){
       this.tagService.setModifyMode(true);
       var row : any = this.tagService.getRowData();
-      let tagRef = this.tag.open(DialogTagComponent, {
+      let tagRef = this.dialog.open(DialogTagComponent, {
       width: '600px', disableClose: true,
       data :{
         tagName : row.name,
@@ -128,20 +129,9 @@ export class MenuComponent implements OnInit, OnDestroy {
     
 
   }
-  sendConfiguration(){
-    var config = {
-      host: '192.168.0.2',
-      user: 'FTP-User',
-      password: 'ftptest123',
-      data: this.configXml.generateXmlToString()
-    }
-
-    var http =this.http.post('/server',config);
-    http.subscribe(data => {
-      console.log(data);
-      
-    },error => {
-      console.log(error); // The error is here
+  openFtp(){
+    this.dialog.open(DialogFtpComponent,{
+      disableClose: true
     })
   }
 

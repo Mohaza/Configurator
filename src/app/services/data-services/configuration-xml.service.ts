@@ -37,7 +37,7 @@ export class ConfigurationXmlService {
   }
   private generateDateNow(): string{
       var date = new Date();
-      return this.timePipe.transform(date, 'yyyy-MM-dd hh:mm:ss',"UTC+2");
+      return this.timePipe.transform(date, 'yyyy-MM-dd hh:mm:ss',"GMT+2");
   }
 //Through Document interface, the creation of the tree structure
   private CreateXml(  xmlDocument : Document){

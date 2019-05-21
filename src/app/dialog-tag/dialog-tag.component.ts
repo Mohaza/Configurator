@@ -41,9 +41,9 @@ export class DialogTagComponent implements OnInit {
     }
     else {
       this.selectedDataType = this.config.dataTypes[0];
-      this.checkValues();
       //this.startAddress = this.config.getAvailableStartAddr(this.numOfElements * this.selectedDataType.size)
     }
+    this.checkValues();
 
 
   }
@@ -119,15 +119,10 @@ export class DialogTagComponent implements OnInit {
         this.numOfElements * this.selectedDataType.size+this.startAddress)
     }
     else {
-      if(this.tagService.getModifyMode()){
-      //if a tag is being modified return its original value
-        this.startAddress = this.data.startAddress;
-      }
-      else{
-        this.startAddress = this.config.getAvailableStartAddr(this.numOfElements * this.selectedDataType.size)
-      }
-      this.occupiedAddress = false;
+      //if a tag is being modified return its original start address
+      this.startAddress = this.config.getAvailableStartAddr(this.numOfElements * this.selectedDataType.size)
 
+      this.occupiedAddress = false;
     }
     
 

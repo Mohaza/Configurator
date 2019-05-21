@@ -17,22 +17,19 @@ export class ConfigurationReaderService {
   constructor(public config: ConfigurationService, public tagService: ServiceTagService, public buttonService: ButtonSettingsService) { }
 
   readConfiguration(file: any) {
-    var textDecoder = new TextDecoder("utf-8");
     this.reader.onload = () => {
-      let res = this.reader.result;
-
-      const arr = new Uint8Array(res as ArrayBuffer);
       //Xml string
-      let sXML = textDecoder.decode(arr);
+      let res = this.reader.result;
+      console.log(res)
       let parser = new DOMParser();
       //From XML string to Document
-      let doc = parser.parseFromString(sXML, "application/xml");
+      let doc = parser.parseFromString(res as string, "application/xml");
       //check the XML file and assemble all its information
       this.checkConfiguration(doc);
 
     }
     //Produce an Array Buffer from file
-    this.reader.readAsArrayBuffer(file);
+    this.reader.readAsBinaryString(file);
 
   }
   checkConfiguration(doc: Document) {

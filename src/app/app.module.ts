@@ -19,6 +19,7 @@ import {
   MatDividerModule,
   MatTableModule,
   MatSortModule,
+  MatProgressBarModule
   } from '@angular/material';
 import { DialogTagComponent } from './dialog-tag/dialog-tag.component';
 import { DisplayComponent } from './display/display.component';
@@ -30,14 +31,16 @@ import { ConfigurationService } from './services/data-services/configuration.ser
 import { DatePipe } from '@angular/common';
 import { ConfigurationReaderService } from './services/data-services/configuration-reader.service';
 import { HttpClientModule } from '@angular/common/http';
-
+import { DialogFtpComponent } from './dialog-ftp/dialog-ftp.component';
+import { ConfigurationFtpService} from './services/data-services/configuration-ftp.service'
 @NgModule({
   declarations: [
     AppComponent,
     MenuComponent,
     DialogTagComponent,
     DisplayComponent,
-    TableTagComponent
+    TableTagComponent,
+    DialogFtpComponent
   ],
   imports: [
     BrowserModule,
@@ -55,12 +58,13 @@ import { HttpClientModule } from '@angular/common/http';
     MatDividerModule,
     MatTableModule,
     MatSortModule,
+    MatProgressBarModule,
     HttpClientModule
   ],
-  entryComponents: [DialogTagComponent],
+  entryComponents: [DialogTagComponent, DialogFtpComponent],
   providers: [
     ServiceTagService,ButtonSettingsService,ConfigurationXmlService,
-    ConfigurationService,DatePipe, ConfigurationReaderService
+    ConfigurationService,DatePipe, ConfigurationReaderService, ConfigurationFtpService
   ],
   bootstrap: [AppComponent]
 })

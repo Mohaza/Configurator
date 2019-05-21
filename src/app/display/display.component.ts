@@ -37,6 +37,9 @@ export class DisplayComponent implements OnInit {
     this.tagService.updateTableCol(this.protocol);
     this.config.setProtocol(this.protocol);
   }
+  updateOpcUaName(){
+    this.config.setOpcUANamespaceUri(this.opcUANamespaceUri);
+  }
 
 
 }

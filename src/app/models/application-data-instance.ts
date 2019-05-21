@@ -45,6 +45,7 @@ export class ApplicationDataInstance {
     private numberOfSubelements : number = 0;
     private numberOfElements : number = 1;
     private accessRights : string = "1"//Gateway to OPC-UA/MQTT 
+    private direction : string = "Gateway to OPC-UA/MQTT"
     //TypeOfData = dataType;
 
     getDataType(){return this.dataType}
@@ -66,13 +67,19 @@ export class ApplicationDataInstance {
 
     }
     getAccessRights(){return this.accessRights}
-    setAccessRights(dir : string){this.accessRights = dir}
-
-
+    setAccessRights(dir : string){
+        this.accessRights = dir
+        this.direction = this.accessRights ==="1" ? 'Gateway to OPC-UA/MQTT' : 'Unknown'
+    }
+    getDirection(){
+        return this.direction;
+    }
+    
     constructor(dataType: DataType, numElements :number, adiName: string , direction : string ){
         this.dataType = dataType;
         this.name =adiName;
-        this.accessRights = direction;
+        this.setAccessRights(direction) ;
+       
 
         this.setElementsNumber(numElements);
         

@@ -1,0 +1,39 @@
+<div>FTP Configuration</div>
+<mat-divider></mat-divider>
+<div [hidden]="isSending===false">
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+</div>
+<mat-dialog-content>
+  <br>
+  <div>Module IP address: &nbsp;
+      <!-- matInput is the input of the hostname or IP address -->
+    <input matInput type="text" [(ngModel)]='host'>
+  </div>
+  <br>
+  <div>Logon type: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;
+     <!-- mat-select is the seletion of logon -->
+    <mat-select [(ngModel)]='logonType'>
+      <mat-option value="basic">Normal</mat-option>
+      <mat-option value="anonymous">Anonymous</mat-option>
+    </mat-select>
+  </div>
+  <br>
+  <div>FTP Username: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <!-- matInput is the input of the username for authentication -->
+    <input matInput type="text" [(ngModel)]='user' [disabled]="logonType==='anonymous'">
+  </div>
+  <br>
+  <div>FTP Password: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <!-- matInput is the input of the The password for authentication -->
+    <input matInput type="password" [(ngModel)]='password' [disabled]="logonType==='anonymous'">
+  </div>
+</mat-dialog-content>
+<mat-divider></mat-divider>
+<p class="warning" [hidden]="isValid === true">Invalid IP Address</p> 
+    <!-- mat-dialog-actions for action section of the popup ftp -->
+<mat-dialog-actions>
+   <!-- mat-raised-button are buttons for sending and canceling ftp -->
+  <button mat-raised-button (click)="sendConfiguration()" [disabled]="isSending === true">Send</button>&nbsp;
+  <button mat-raised-button (click)="onCloseCancel()" [disabled]="isSending === true">Cancel</button>
+</mat-dialog-actions>

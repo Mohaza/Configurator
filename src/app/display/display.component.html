@@ -23,6 +23,6 @@
   </mat-radio-group>
   <div class="namespace">Namespace URI:&nbsp;
     <!-- matInput for input text for OPC-UA protocol -->
-    <input matInput type="text" [disabled]="protocol==='MQTT'" [(ngModel)]='opcUANamespaceUri'>
+    <input matInput type="text" [disabled]="protocol==='MQTT'" [(ngModel)]='opcUANamespaceUri' (keyup)="updateOpcUaName()">
   </div>
 </div>

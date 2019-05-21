@@ -16,8 +16,8 @@ const ELEMENT_DATA: TagElement[] = [];
 })
 export class TableTagComponent implements OnInit, OnDestroy {
 
-  OPC_UA: string[] = ['name', 'dataType', 'elements', 'startAddress', 'endAddress', 'nodeID'];
-  MQTT: string[] = ['name', 'dataType', 'elements', 'startAddress', 'endAddress'];
+  OPC_UA: string[] = ['name', 'dataType', 'elements','direction', 'startAddress', 'endAddress', 'nodeID'];
+  MQTT: string[] = ['name', 'dataType', 'elements','direction', 'startAddress', 'endAddress'];
   
   selectedRow: number = -1;
   dataSource: MatTableDataSource<TagElement>;
@@ -35,10 +35,12 @@ export class TableTagComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    //the observer method of addTag from table-tag.component.ts
     this.tagService.newTagSubject.subscribe(adi => {
+      //inserting adi(tag) into the table
       ELEMENT_DATA.push({
          name: adi.getName() , dataType: adi.getDataType().name,
-         elements: adi.getElementsNumber(), startAddress: adi.getStartAddress(),
+         elements: adi.getElementsNumber(),direction: adi.getDirection(), startAddress: adi.getStartAddress(),
          endAddress: adi.getEndAddress(), nodeID: adi.getOpcUANodeIdentifier()
 
       });
@@ -72,7 +74,7 @@ export class TableTagComponent implements OnInit, OnDestroy {
       //this.config.getAdiList()[this.selectedRow] = adi;
       ELEMENT_DATA[this.selectedRow] = {
          name: adi.getName(), dataType: adi.getDataType().name,
-         elements: adi.getElementsNumber(), startAddress: adi.getStartAddress(),
+         elements: adi.getElementsNumber(),direction : adi.getDirection(), startAddress: adi.getStartAddress(),
          endAddress: adi.getEndAddress(), nodeID: adi.getOpcUANodeIdentifier()
        };
       this.dataSource = new MatTableDataSource(ELEMENT_DATA);   
@@ -98,7 +100,7 @@ export class TableTagComponent implements OnInit, OnDestroy {
       for(let adi of this.config.getAdiList()){
         ELEMENT_DATA.push({
           name: adi.getName() , dataType: adi.getDataType().name,
-          elements: adi.getElementsNumber(), startAddress: adi.getStartAddress(),
+          elements: adi.getElementsNumber(),direction: adi.getDirection(), startAddress: adi.getStartAddress(),
           endAddress: adi.getEndAddress(), nodeID: adi.getOpcUANodeIdentifier() 
         })
       }
