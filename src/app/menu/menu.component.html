@@ -1,4 +1,4 @@
-<input style="display: none" type="file" accept="text/xml" (change)="onFileSelected($event)" #fileInput>
+<input style="display: none" type="file" accept="text/xml" (click)="fileInput.value = null" (change)="onFileSelected($event)" #fileInput>
 <div>
    <!-- mat-button [matMenuTriggerFor], is a file button that open up fileMenu -->
   <button mat-button [matMenuTriggerFor]="fileMenu" class="menu">File</button>

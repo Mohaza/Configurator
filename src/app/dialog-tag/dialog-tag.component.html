@@ -37,7 +37,7 @@
       </mat-radio-group>
       <div style="text-align:right">
     <!-- matInput is the input and display of the start address -->
-          <input matInput type="number" [(ngModel)]="startAddress" step="1" min="0" [disabled]="addressOption==='auto'" (change)="checkValues()">
+          <input matInput type="number" [(ngModel)]="startAddress" step="1" min="0" max="511" [disabled]="addressOption==='auto'" (change)="checkValues()">
       </div>
     </div>
   </div>

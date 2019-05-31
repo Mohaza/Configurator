@@ -20,7 +20,7 @@ export class ConfigurationReaderService {
     this.reader.onload = () => {
       //Xml string
       let res = this.reader.result;
-      console.log(res)
+     // console.log(res)
       let parser = new DOMParser();
       //From XML string to Document
       let doc = parser.parseFromString(res as string, "application/xml");

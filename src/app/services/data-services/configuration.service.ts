@@ -81,7 +81,7 @@ export class ConfigurationService {
   getAvailableStartAddr(size:number){
     let count = 0;
     console.log(size)
-    for(let i = 0; i < 10000; i++){
+    for(let i = 0; i < 512; i++){
       if(this.address[i]==undefined){
         count++;
         console.log(count)
@@ -93,6 +93,7 @@ export class ConfigurationService {
         count = 0;
       }
     }
+    return 512;
 
   }
   setStartAddress(start:number,size:number){
@@ -111,6 +112,7 @@ export class ConfigurationService {
   }
   
   occupiedAddress(start : number, size: number){
+    if(size-1 > 511){return true}
     for(let i = start; i < size; i++){
       if(this.address[i]){
         console.log(i)

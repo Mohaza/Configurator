@@ -117,7 +117,7 @@ export class MenuComponent implements OnInit, OnDestroy {
   }
 
   generateXml(){
-      var fileName = "blobTest"
+      var fileName = "adicfg"
       this.config.getAdiList().sort((a,b)=>a.getStartAddress()-b.getStartAddress());
       this.configXml.CreateConfigurationXml(fileName);
 
