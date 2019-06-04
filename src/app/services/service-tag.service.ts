@@ -9,14 +9,13 @@ import { TagElement } from '../models/tag-element';
 
 
 export class ServiceTagService {
-
+  public updateDisplayEvent = new EventEmitter<any>(true);
   public newTagSubject = new Subject<ApplicationDataInstance>();
   public removeTagSubject = new Subject<any>();
   public modifiedTagSubject = new Subject<ApplicationDataInstance>();
   public resetTagsSubject = new Subject<any>();
   public protocolChangeSubject = new Subject<any>();
   public fileToTableSubject = new Subject<any>();
-  public updateDisplayEvent = new EventEmitter<any>(true);
 
   public rowData : TagElement;
   public modifyMode : boolean = false;
@@ -33,6 +32,8 @@ export class ServiceTagService {
    updateDisplay(){
     this.updateDisplayEvent.next();
   }
+  //A observable method that interacts between dialog-tag.component.ts and table-tag.component.ts
+  //parameter is a tag
    addTag(adi: ApplicationDataInstance){
 
     this.newTagSubject.next(adi);

@@ -4,31 +4,34 @@
   <!-- mat-dialog-content is the content for the popup tag -->
 <mat-dialog-content>
   <br>
-  <div>Name: &nbsp;
+  <div>Name: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       <!-- matInput is the input of the tag name -->
-    <input matInput type="text" [(ngModel)]='tagName'>
+    <input matInput style="width: 45%;" type="text" [(ngModel)]='tagName'>
   </div>
   <br>
-  <div>Data type: &nbsp;
+  <div>Data type: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
      <!-- mat-select is the seletion of data-types -->
     <mat-select class='form-control' [(ngModel)]='selectedDataType' (selectionChange)="checkValues()">
       <mat-option [value]="dataType" *ngFor="let dataType of dataTypes">{{dataType.name}}</mat-option>
     </mat-select>
   </div>
   <br>
-  <div>Number of elements: &nbsp;
+  <div>Number of elements: &nbsp;&nbsp;&nbsp;&nbsp;
     <!-- matInput is the input for the number of elements -->
-    <input matInput [(ngModel)]='numOfElements' type="number" step="1" min="1" (change)="checkValues()">
+    <input matInput style="width: 45%;" [(ngModel)]='numOfElements' type="number" step="1" min="1" (change)="checkValues()">
   </div>
   <br>
-  <div>Direction: &nbsp;
+  <div>Direction: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     <!-- mat-select is the seletion of gateway direction -->
     <mat-select class='form-control' [(ngModel)]='direction'>
       <mat-option value="1">Gateway to OPC-UA/MQTT</mat-option>
     </mat-select>
   </div>
   <br>
-  <div>Start address: &nbsp;
+  <div>Start address: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     <div style="text-align:center">
     <!-- mat-radio-button is for the radio buttons to select, if start address will be set manually or automatically -->
       <mat-radio-group aria-label="Select an start address" [(ngModel)]='addressOption' (change)="checkValues()">
@@ -37,13 +40,14 @@
       </mat-radio-group>
       <div style="text-align:right">
     <!-- matInput is the input and display of the start address -->
-          <input matInput type="number" [(ngModel)]="startAddress" step="1" min="0" max="511" [disabled]="addressOption==='auto'" (change)="checkValues()">
+          <input matInput style="width: 15%;" type="number" [(ngModel)]="startAddress" step="1" min="0" max="511" [disabled]="addressOption==='auto'" (change)="checkValues()">
       </div>
     </div>
   </div>
   <br>
     <!-- size of tag -->
-  <div>Size of tag: &nbsp;{{selectedDataType.size * numOfElements}}&nbsp;byte
+  <div>Size of tag: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    {{selectedDataType.size * numOfElements}}&nbsp;byte
     
   </div>
 </mat-dialog-content>

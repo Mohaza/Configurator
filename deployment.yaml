@@ -17,5 +17,6 @@ spec:
       containers:
       - name: angular
         image: mohaza/configurator:v1
+        imagePullPolicy: Always
         ports:
         - containerPort: 80
