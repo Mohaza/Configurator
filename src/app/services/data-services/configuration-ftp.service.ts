@@ -27,13 +27,16 @@ export class ConfigurationFtpService {
     })
   }
   sendConfigBasic(hostIp:string,userName:string,pass:string){
+    //FTP config aswell as configuration file
     var config = {
       host: hostIp,
       user: userName,
       password: pass,
       data: this.configXml.generateXmlToString()
     }
+    //REST http post
     var http =this.http.post('/server/basic',config);
+    //response from server
     http.subscribe(data => {
       console.log(data['data']);
       this.response(data['data']);
@@ -43,8 +46,3 @@ export class ConfigurationFtpService {
     })
   }
 }
-/**
- * host: '192.168.0.2',
-   user: 'FTP-User',
-   password: 'ftptest123'
- */
