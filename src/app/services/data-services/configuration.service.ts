@@ -8,7 +8,9 @@ import { TagElement } from 'src/app/models/tag-element';
   providedIn: 'root'
 })
 
-//configuration
+/// <summary>
+///     A service class representing the current configuration.
+/// </summary>
 export class ConfigurationService {
  //All datatypes names,sizes and identities
  dataTypes : DataType[] = [ 
@@ -41,43 +43,72 @@ export class ConfigurationService {
 
   
   
-
+  /// <summary>
+  ///     find and get the adi with the same node id as TagElement.
+  /// </summary>
+  /// <param name="tagElement">The TagElement displayed in table representing adi.</param>
   findAdi(tagElement: TagElement ){
     let adiObject =this.adiList.find(x => x.getOpcUANodeIdentifier() === tagElement.nodeID)
     return adiObject;
   }
-  
-  getAdiInstanceNum(){
-    return this.adiInstanceNum;
-  }
+  /// <summary>
+  ///     get and set the adi number.
+  /// </summary>
+  /// <param name="num">The number.</param>
   setAdiInstanceNum(num : number){
     this.adiInstanceNum = num;
   }
+  getAdiInstanceNum(){
+    return this.adiInstanceNum;
+  }
+  
+  /// <summary>
+  ///     get and set the address
+  /// </summary>
+  /// <param name="addr">The address array.</param>
   setAddress(addr : boolean[]){
     this.address = addr;
   }
   getAddress(){
     return this.address
   }
+
+  /// <summary>
+  ///     get and set the protocol
+  /// </summary>
+  /// <param name="protocol">Name of the protocol.</param>
+  setProtocol(protocol : string ){
+    this.protocol = protocol;
+  }
   getProtocol(){
     return this.protocol;
   }
-  setProtocol(protocol : string ){
-    this.protocol = protocol;
+  
+  /// <summary>
+  ///     get and set the OPC-UA namespace URI
+  /// </summary>
+  /// <param name="namespaceUri">The namespace URI.</param>
+  setOpcUANamespaceUri(namespaceUri : string ){
+    this.opcUANamespaceUri = namespaceUri;
   }
   getOpcUANamespaceUri(){
     return this.opcUANamespaceUri;
   }
-  setOpcUANamespaceUri(namespaceUri : string ){
-    this.opcUANamespaceUri = namespaceUri;
-  }
 
-  getAdiList(){
-    return this.adiList;
-  }
+  /// <summary>
+  ///     get and set adi array
+  /// </summary>
+  /// <param name="adiList">The adi array.</param>
   setAdiList(adiList : ApplicationDataInstance[] ){
     this.adiList = adiList;
   }
+  getAdiList(){
+    return this.adiList;
+  }
+  /// <summary>
+  ///     get the first available start address
+  /// </summary>
+  /// <param name="size">The size of the adi.</param>
   getAvailableStartAddr(size:number){
     let count = 0;
     console.log(size)
@@ -96,6 +127,11 @@ export class ConfigurationService {
     return 512;
 
   }
+  /// <summary>
+  ///     set the address of the adi
+  /// </summary>
+  /// <param name="start">The start address of the adi.</param>
+  /// <param name="size">The size of the adi.</param>
   setStartAddress(start:number,size:number){
     for(let i = start; i <= size; i++){
       this.address[i] = true;
@@ -103,6 +139,11 @@ export class ConfigurationService {
     console.log(this.address);
 
   }
+  /// <summary>
+  ///     delete the address of the adi
+  /// </summary>
+  /// <param name="start">The start address of the adi.</param>
+  /// <param name="size">The size of the adi.</param>
   removeStartAddress(start:number,size:number){
     for(let i = start; i <= size; i++){
       this.address[i] = undefined;
@@ -110,7 +151,11 @@ export class ConfigurationService {
     console.log(this.address);
 
   }
-  
+  /// <summary>
+  ///     get the boolean of the address array to disable or enable saving of adi.
+  /// </summary>
+  /// <param name="start">The start address of the adi.</param>
+  /// <param name="size">The size of the adi.</param>
   occupiedAddress(start : number, size: number){
     if(size-1 > 511){return true}
     for(let i = start; i < size; i++){
@@ -122,6 +167,10 @@ export class ConfigurationService {
     return false;
 
   }
+  /// <summary>
+  ///     update configuration on the adding of adi.
+  /// </summary>
+  /// <param name="adi">The adi.</param>
   addAdi(adi : ApplicationDataInstance){
     this.highestAdi++
     this.adiInstanceNum++;
@@ -138,6 +187,10 @@ export class ConfigurationService {
     this.adiList.push(adi);
 
   }
+  /// <summary>
+  ///     update configuration on the removing of adi.
+  /// </summary>
+  /// <param name="adi">The adi.</param>
   removeAdi(adi:ApplicationDataInstance){
     console.log(adi);
     let adiEndAddress = adi.getEndAddress();
@@ -154,12 +207,12 @@ export class ConfigurationService {
     }
 
   }
-  recoverFromAdi(adi : ApplicationDataInstance){
-    this.totalSize -=adi.getTotalBytes();
-    this.removeStartAddress(adi.getStartAddress(),adi.getEndAddress())
-    
-  }
-  //sätt tillbaka allt från dialog-tag, samt fixa address genom modifiera
+
+  /// <summary>
+  ///     update configuration on the modifying of adi.
+  /// </summary>
+  /// <param name="adi">The adi.</param>
+  /// <param name="index">The index number.</param>
   modifyAdi(adi : ApplicationDataInstance,index: number){
     this.totalSize +=adi.getTotalBytes();
     this.highestAddress = 0;
@@ -171,25 +224,49 @@ export class ConfigurationService {
     this.adiList[index] = adi;
 
   }
+  recoverFromAdi(adi : ApplicationDataInstance){
+    this.totalSize -=adi.getTotalBytes();
+    this.removeStartAddress(adi.getStartAddress(),adi.getEndAddress())
 
+  }
+
+  /// <summary>
+  ///     get and set highest address number
+  /// </summary>
+  /// <param name="num">The highest address number.</param>
+  setHighestAddress(num : number ){
+    this.highestAddress = num;
+  }
   getHighestAddress(){
     return this.highestAddress;
   }
-  setHighestAddress(num : number ){
-    this.highestAddress = num;
+    
+  /// <summary>
+  ///     get and set highest number of adi
+  /// </summary>
+  /// <param name="num">The highest number of adi.</param>
+  setHighestAdi(num : number ){
+    this.highestAdi = num;
   }
   getHighestAdi(){
     return this.highestAdi;
   }
-  setHighestAdi(num : number ){
-    this.highestAdi = num;
+
+  /// <summary>
+  ///     get and set total bytes number used
+  /// </summary>
+  /// <param name="num">The total bytes number.</param>
+  setTotalSize(num : number ){
+    this.totalSize = num;
   }
   getTotalSize(){
     return this.totalSize;
   }
-  setTotalSize(num : number ){
-    this.totalSize = num;
-  }
+
+  /// <summary>
+  ///     get the OPC UA node identifier of the converted adi number
+  /// </summary>
+  /// <param name="adiNumber">The adi number to convert.</param>
   adiNumberToOpcUANodeIdentifier(adiNumber: number)
         {
             // How to calculate the OPC UA node identifier for an ABCC ADI is specified in
@@ -202,11 +279,11 @@ export class ConfigurationService {
             //                              MMMM   ADI number
             //                                  NN ADI value type
 
-            const  AdiRangeStart      = 0x01000000;  // See SDS-7044-065, version 1.02, table 8.
-            const  AdiNumberLeftShift = 8;           // See SDS-7044-065, version 1.02, table 8.
-            const  CurrentValueNodeId = 0x00;        // See SDS-7044-065, version 1.02, table 30.
+            const  adiRangeStart      = 0x01000000;  // See SDS-7044-065, version 1.02, table 8.
+            const  adiNumberLeftShift = 8;           // See SDS-7044-065, version 1.02, table 8.
+            const  currentValueNodeId = 0x00;        // See SDS-7044-065, version 1.02, table 30.
 
-            return AdiRangeStart | (adiNumber << AdiNumberLeftShift) | CurrentValueNodeId;
+            return adiRangeStart | (adiNumber << adiNumberLeftShift) | currentValueNodeId;
         }
 
 }

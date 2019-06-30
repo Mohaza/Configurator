@@ -1,3 +1,6 @@
+/// <summary>
+///     A interface representing the displayed adi.
+/// </summary>
 export interface TagElement {
 
     name: string;

@@ -14,6 +14,10 @@ const ELEMENT_DATA: TagElement[] = [];
   templateUrl: './table-tag.component.html',
   styleUrls: ['./table-tag.component.css']
 })
+
+/// <summary>
+///     A component representing the adi table.
+/// </summary>
 export class TableTagComponent implements OnInit, OnDestroy {
 
   OPC_UA: string[] = ['name', 'dataType', 'elements','direction', 'startAddress', 'endAddress', 'nodeID'];
@@ -30,14 +34,8 @@ export class TableTagComponent implements OnInit, OnDestroy {
     this.dataSource.filter = "";
 
   }
-  prettyNumber(num : number){
-    return num.toString().replace(/(\d)(?=(\d{3})+$)/g, '$1 ');
-  }
-
   ngOnInit() {
-    //the observer method of addTag from table-tag.component.ts
     this.tagService.newTagSubject.subscribe(adi => {
-      //inserting adi(tag) into the table
       ELEMENT_DATA.push({
          name: adi.getName() , dataType: adi.getDataType().name,
          elements: adi.getElementsNumber(),direction: adi.getDirection(), startAddress: adi.getStartAddress(),
@@ -71,7 +69,6 @@ export class TableTagComponent implements OnInit, OnDestroy {
     });
 
     this.tagService.modifiedTagSubject.subscribe(adi => {
-      //this.config.getAdiList()[this.selectedRow] = adi;
       ELEMENT_DATA[this.selectedRow] = {
          name: adi.getName(), dataType: adi.getDataType().name,
          elements: adi.getElementsNumber(),direction : adi.getDirection(), startAddress: adi.getStartAddress(),

@@ -7,6 +7,9 @@ import { ConfigurationFtpService } from '../services/data-services/configuration
   templateUrl: './dialog-ftp.component.html',
   styleUrls: ['./dialog-ftp.component.css']
 })
+/// <summary>
+///     A component representing the popup window of FTP upload.
+/// </summary>
 export class DialogFtpComponent implements OnInit {
   private host:any;
   private user = "";
@@ -29,6 +32,9 @@ export class DialogFtpComponent implements OnInit {
      
    })
   }
+  /// <summary>
+  ///     Method to send configuration to server.js, then using FTP to reach the requested host.
+  /// </summary>
   sendConfiguration(){
     this.isValid = this.validateIPaddress();
     console.log(this.isValid)
@@ -39,14 +45,19 @@ export class DialogFtpComponent implements OnInit {
       }
       else{
         //anonymously
-        console.log('hello')
         this.ftp.sendConfig(this.host)
       }
     }
   }
+  /// <summary>
+  ///     Method to close popup window through "Cancel" button.
+  /// </summary>
   onCloseCancel(){
     this.dialogRef.close();
   }
+  /// <summary>
+  ///     Method to validate the host IP. If so return true
+  /// </summary>
   validateIPaddress() {  
     if (/^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(this.host)) {  
       return true;

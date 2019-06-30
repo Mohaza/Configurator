@@ -7,6 +7,10 @@ import { ApplicationDataInstance } from 'src/app/models/application-data-instanc
 @Injectable({
   providedIn: 'root'
 })
+/// <summary>
+///     A service class representing the creation of tree structure of the XML file aswell as the downloading,
+///     from current configuration.
+/// </summary>
 export class ConfigurationXmlService {
   private   ValueAttribute = "Value";
   private   RootElement : string = "Configuration";
@@ -39,7 +43,6 @@ export class ConfigurationXmlService {
       var date = new Date();
       return this.timePipe.transform(date, 'yyyy-MM-dd HH:mm:ss',"UTC+2");
   }
-//Through Document interface, the creation of the tree structure
   private CreateXml(  xmlDocument : Document){
       var rootXmlElement = xmlDocument.createElement(this.RootElement);
       rootXmlElement.setAttribute(this.CreatedAttribute, this.generateDateNow());
@@ -63,8 +66,7 @@ export class ConfigurationXmlService {
       opcUAValueXmlElement.setAttribute(this.ValueAttribute, this.configuration.getOpcUANamespaceUri());
       opcUAXmlElement.appendChild(opcUAValueXmlElement);
       this.CreateApplicationDataObjectXml( rootXmlElement, xmlDocument);
-  }
-  //through 
+  } 
   private CreateApplicationDataObjectXml( parent: HTMLElement, xmlDocument : XMLDocument){
       var applicationDataObjectXmlElement = xmlDocument.createElement(this.ApplicationDataObjectElement);
       parent.appendChild(applicationDataObjectXmlElement);
@@ -88,10 +90,10 @@ export class ConfigurationXmlService {
       var nbrOfElementsXmlElement = xmlDocument.createElement(this.NbrOfElementsElement);
       nbrOfElementsXmlElement.setAttribute(
           this.ValueAttribute,
-          adi.getNumberOfElements().toString());//adi.Element.GetElementInformation().Count().ToString(/*CultureInfo.InvariantCulture*/)
+          adi.getNumberOfElements().toString());
       adiXmlElement.appendChild(nbrOfElementsXmlElement);
       var offsetXmlElement = xmlDocument.createElement(this.BitOffsetElement);
-      offsetXmlElement.setAttribute(this.ValueAttribute, (adi.getStartAddress() * this.NumberOfBitsInByte).toString())//.ToString(/*CultureInfo.InvariantCulture*/));
+      offsetXmlElement.setAttribute(this.ValueAttribute, (adi.getStartAddress() * this.NumberOfBitsInByte).toString())
       adiXmlElement.appendChild(offsetXmlElement);
       this.CreateElementXml(adi, adiXmlElement, xmlDocument);
   }
@@ -103,21 +105,22 @@ export class ConfigurationXmlService {
       var dataTypeXmlElement = xmlDocument.createElement(this.DataTypeElement);
       dataTypeXmlElement.setAttribute(
           this.ValueAttribute,
-          adi.getDataType().id.toString());//GetElementInformation().First().DataType.TypeId.ToString(/*CultureInfo.InvariantCulture*/
+          adi.getDataType().id.toString());
       baseElementXmlElement.appendChild(dataTypeXmlElement);
       var descriptorXmlElement = xmlDocument.createElement(this.DescriptorElement);
       descriptorXmlElement.setAttribute(
           this.ValueAttribute,
-          adi.getAccessRights().toString());//((Number)(element.GetElementInformation().First().AccessRights)).ToString(/*CultureInfo.InvariantCulture*/)
+          adi.getAccessRights().toString());
       baseElementXmlElement.appendChild(descriptorXmlElement);
       var nbrOfSubelementsXmlElement = xmlDocument.createElement(this.NbrOfSubelementsElement);
-      //Do If satement
       nbrOfSubelementsXmlElement.setAttribute(
           this.ValueAttribute,
-          adi.getNumberOfSubelements() === 0 ? this.NoSubelementsValue : adi.getNumberOfSubelements().toString());//GetElementInformation().First().NumberOfSubelements?.ToString(/*CultureInfo.InvariantCulture*/)
+          adi.getNumberOfSubelements() === 0 ? this.NoSubelementsValue : adi.getNumberOfSubelements().toString());
       baseElementXmlElement.appendChild(nbrOfSubelementsXmlElement);
   }
-
+  /// <summary>
+  ///     get the XML string of the Document
+  /// </summary>
   public generateXmlToString()
   {
       //created DOM object
@@ -130,6 +133,10 @@ export class ConfigurationXmlService {
       var sXML = xmlSerializer.serializeToString(xmlDocument);
       return sXML
   }
+  /// <summary>
+  ///     create a XML file using Blob object for download
+  /// </summary>
+  /// <param name="fileName">The name of the configuration file.</param>
   public CreateConfigurationXml(fileName : string){
     var sXML = this.generateXmlToString();
     //creating file and downloading through a web link

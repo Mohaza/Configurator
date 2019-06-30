@@ -8,6 +8,9 @@ import { ButtonSettingsService } from '../button-settings.service';
 @Injectable({
   providedIn: 'root'
 })
+/// <summary>
+///     A service class representing the reading of file when uploading an XML file.
+/// </summary>
 export class ConfigurationReaderService {
 
   private reader = new FileReader();
@@ -15,16 +18,18 @@ export class ConfigurationReaderService {
 
 
   constructor(public config: ConfigurationService, public tagService: ServiceTagService, public buttonService: ButtonSettingsService) { }
-
+  /// <summary>
+  ///     read XML file then convert to a Document
+  /// </summary>
+  /// <param name="file">The uploaded XML file.</param>
   readConfiguration(file: any) {
     this.reader.onload = () => {
       //Xml string
       let res = this.reader.result;
-     // console.log(res)
       let parser = new DOMParser();
       //From XML string to Document
       let doc = parser.parseFromString(res as string, "application/xml");
-      //check the XML file and assemble all its information
+      //check the XML file
       this.checkConfiguration(doc);
 
     }
@@ -32,8 +37,12 @@ export class ConfigurationReaderService {
     this.reader.readAsBinaryString(file);
 
   }
-  checkConfiguration(doc: Document) {
-    //retrieve three essential tags from configuration
+  /// <summary>
+  ///     check that the Document has the essential tags.
+  /// </summary>
+  /// <param name="doc">The Document of the XML file.</param>
+  private checkConfiguration(doc: Document) {
+    //retrieve three essential tags from XML file
     var configuration = doc.getElementsByTagName("Configuration")[0];
     var protocol = doc.getElementsByTagName("Protocol")[0];
     this.abccInstance = doc.getElementsByTagName("AbccInstance");
@@ -50,11 +59,13 @@ export class ConfigurationReaderService {
 
 
   }
-
-  assembleConfiguration(doc: Document) {
+  /// <summary>
+  ///     Assemble the Document tags for setting up its configuration
+  /// </summary>
+  /// <param name="doc">The Document of the XML file.</param>
+  private assembleConfiguration(doc: Document) {
     var protocol = doc.getElementsByTagName("Protocol")[0].getAttribute("Value")
     var appLocalNamespaceURI = doc.getElementsByTagName("AppLocalNamespaceURI")[0].getAttribute("Value")
-    //var objectNbr = doc.getElementsByTagName("ObjectNbr")[0].getAttribute("Value")
 
     //initializing the value variables
     let highestAddress = 0;

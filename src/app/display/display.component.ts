@@ -7,6 +7,9 @@ import { ConfigurationService } from '../services/data-services/configuration.se
   templateUrl: './display.component.html',
   styleUrls: ['./display.component.css']
 })
+/// <summary>
+///     A component representing the information display.
+/// </summary>
 export class DisplayComponent implements OnInit {
   protocol = 'OPC-UA';
   highestAddress: number = 0;
@@ -33,10 +36,16 @@ export class DisplayComponent implements OnInit {
     });
 
   }
+  /// <summary>
+  ///     Method to update protocol.
+  /// </summary>
   updateProtocol() {
     this.tagService.updateTableCol(this.protocol);
     this.config.setProtocol(this.protocol);
   }
+  /// <summary>
+  ///     Method to update OPC-UA namespace URI.
+  /// </summary>
   updateOpcUaName(){
     this.config.setOpcUANamespaceUri(this.opcUANamespaceUri);
   }
