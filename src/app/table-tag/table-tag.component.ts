@@ -20,9 +20,9 @@ const ELEMENT_DATA: TagElement[] = [];
 /// </summary>
 export class TableTagComponent implements OnInit, OnDestroy {
 
-  OPC_UA: string[] = ['name', 'dataType', 'elements','direction', 'startAddress', 'endAddress', 'nodeID'];
-  MQTT: string[] = ['name', 'dataType', 'elements','direction', 'startAddress', 'endAddress'];
-  
+  OPC_UA: string[] = ['name', 'dataType', 'elements', 'direction', 'startAddress', 'endAddress', 'nodeID'];
+  MQTT: string[] = ['name', 'dataType', 'elements', 'direction', 'startAddress', 'endAddress'];
+
   selectedRow: number = -1;
   dataSource: MatTableDataSource<TagElement>;
   displayedColumns = this.OPC_UA;
@@ -37,15 +37,15 @@ export class TableTagComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.tagService.newTagSubject.subscribe(adi => {
       ELEMENT_DATA.push({
-         name: adi.getName() , dataType: adi.getDataType().name,
-         elements: adi.getElementsNumber(),direction: adi.getDirection(), startAddress: adi.getStartAddress(),
-         endAddress: adi.getEndAddress(), nodeID: adi.getOpcUANodeIdentifier()
+        name: adi.getName(), dataType: adi.getDataType().name,
+        elements: adi.getElementsNumber(), direction: adi.getDirection(), startAddress: adi.getStartAddress(),
+        endAddress: adi.getEndAddress(), nodeID: adi.getOpcUANodeIdentifier()
 
       });
-      this.dataSource = new MatTableDataSource(ELEMENT_DATA);   
-      this.ngAfterViewInit(); 
-      this.dataSource.sortData(this.dataSource.filteredData,this.dataSource.sort);
-      if(this.selectedRow != -1){
+      this.dataSource = new MatTableDataSource(ELEMENT_DATA);
+      this.ngAfterViewInit();
+      this.dataSource.sortData(this.dataSource.filteredData, this.dataSource.sort);
+      if (this.selectedRow != -1) {
         this.tagService.setRowData(this.dataSource.data[this.selectedRow]);
       }
     })
@@ -53,31 +53,31 @@ export class TableTagComponent implements OnInit, OnDestroy {
     this.tagService.removeTagSubject.subscribe(() => {
       let tagRemove = ELEMENT_DATA[this.selectedRow];
       ELEMENT_DATA.splice(this.selectedRow, 1);
-      let adiRemove =this.config.findAdi(tagRemove);
+      let adiRemove = this.config.findAdi(tagRemove);
       this.config.removeAdi(adiRemove);
-   
-      this.dataSource = new MatTableDataSource(ELEMENT_DATA);   
-      this.ngAfterViewInit(); 
-      this.dataSource.sortData(this.dataSource.filteredData,this.dataSource.sort);
+
+      this.dataSource = new MatTableDataSource(ELEMENT_DATA);
+      this.ngAfterViewInit();
+      this.dataSource.sortData(this.dataSource.filteredData, this.dataSource.sort);
 
       if (this.selectedRow >= ELEMENT_DATA.length) {
         this.resetRowData();
       }
-      else{
+      else {
         this.tagService.setRowData(this.dataSource.data[this.selectedRow]);
       }
     });
 
     this.tagService.modifiedTagSubject.subscribe(adi => {
       ELEMENT_DATA[this.selectedRow] = {
-         name: adi.getName(), dataType: adi.getDataType().name,
-         elements: adi.getElementsNumber(),direction : adi.getDirection(), startAddress: adi.getStartAddress(),
-         endAddress: adi.getEndAddress(), nodeID: adi.getOpcUANodeIdentifier()
-       };
-      this.dataSource = new MatTableDataSource(ELEMENT_DATA);   
-      this.ngAfterViewInit(); 
-      this.dataSource.sortData(this.dataSource.filteredData,this.dataSource.sort);
-      
+        name: adi.getName(), dataType: adi.getDataType().name,
+        elements: adi.getElementsNumber(), direction: adi.getDirection(), startAddress: adi.getStartAddress(),
+        endAddress: adi.getEndAddress(), nodeID: adi.getOpcUANodeIdentifier()
+      };
+      this.dataSource = new MatTableDataSource(ELEMENT_DATA);
+      this.ngAfterViewInit();
+      this.dataSource.sortData(this.dataSource.filteredData, this.dataSource.sort);
+
       this.tagService.setRowData(this.dataSource.data[this.selectedRow]);
     })
 
@@ -85,29 +85,28 @@ export class TableTagComponent implements OnInit, OnDestroy {
       ELEMENT_DATA.length = 0;
       this.config.getAdiList().length = 0;
       this.resetRowData();
-      this.dataSource = new MatTableDataSource(ELEMENT_DATA);   
-      this.ngAfterViewInit(); 
+      this.dataSource = new MatTableDataSource(ELEMENT_DATA);
+      this.ngAfterViewInit();
     })
 
-    this.tagService.protocolChangeSubject.subscribe(protocol =>{
-    (protocol === "OPC-UA") ? this.displayedColumns =this.OPC_UA : this.displayedColumns =this.MQTT;
+    this.tagService.protocolChangeSubject.subscribe(protocol => {
+      (protocol === "OPC-UA") ? this.displayedColumns = this.OPC_UA : this.displayedColumns = this.MQTT;
     })
 
-    this.tagService.fileToTableSubject.subscribe(() =>{
-      for(let adi of this.config.getAdiList()){
+    this.tagService.fileToTableSubject.subscribe(() => {
+      for (let adi of this.config.getAdiList()) {
         ELEMENT_DATA.push({
-          name: adi.getName() , dataType: adi.getDataType().name,
-          elements: adi.getElementsNumber(),direction: adi.getDirection(), startAddress: adi.getStartAddress(),
-          endAddress: adi.getEndAddress(), nodeID: adi.getOpcUANodeIdentifier() 
+          name: adi.getName(), dataType: adi.getDataType().name,
+          elements: adi.getElementsNumber(), direction: adi.getDirection(), startAddress: adi.getStartAddress(),
+          endAddress: adi.getEndAddress(), nodeID: adi.getOpcUANodeIdentifier()
         })
       }
-      this.dataSource = new MatTableDataSource(ELEMENT_DATA);   
-      this.ngAfterViewInit(); 
-      this.dataSource.sortData(this.dataSource.filteredData,this.dataSource.sort);
+      this.dataSource = new MatTableDataSource(ELEMENT_DATA);
+      this.ngAfterViewInit();
+      this.dataSource.sortData(this.dataSource.filteredData, this.dataSource.sort);
     })
   }
 
-  
   ngOnDestroy(): void {
 
     this.tagService.newTagSubject.unsubscribe();
@@ -116,31 +115,46 @@ export class TableTagComponent implements OnInit, OnDestroy {
     this.tagService.protocolChangeSubject.unsubscribe();
 
   }
+  /// <summary>
+  ///     reset row data
+  /// </summary>
   resetRowData() {
     this.selectedRow = -1;
     this.buttonService.setRowSelection(-1);
     this.tagService.setRowData(null);
   }
 
-
+  /// <summary>
+  ///     Updates the sorting of the dataSource.
+  /// </summary>
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;
 
   }
-  sortHeader(){
-    this.dataSource.sortData(this.dataSource.filteredData,this.dataSource.sort);
+  /// <summary>
+  ///     Method to sort the clicked header.
+  /// </summary>
+  sortHeader() {
+    this.dataSource.sortData(this.dataSource.filteredData, this.dataSource.sort);
     this.tagService.setRowData(this.dataSource.data[this.selectedRow])
   }
-
+  /// <summary>
+  ///     Method to filter the table based on the searchbar.
+  /// </summary>
+  /// <param name="filterValue">The searched text.</param>
   applyFilter(filterValue: string) {
     if (this.selectedRow > -1) {
       this.resetRowData();
       this.buttonService.disableButtons();
     }
-    filterValue = filterValue.trim(); // Remove whitespace
-    filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
+    filterValue = filterValue.trim();
+    filterValue = filterValue.toLowerCase();
     this.dataSource.filter = filterValue;
   }
+  /// <summary>
+  ///     A method that is triggered when a row is clicked in the table.
+  /// </summary>
+  /// <param name="index">The index row clicked.</param>
   setClickedRow(index: number) {
     if (this.dataSource.filter === "") {
       if (this.selectedRow === -1) {

@@ -10,6 +10,9 @@ import { ConfigurationService } from '../services/data-services/configuration.se
   templateUrl: './dialog-tag.component.html',
   styleUrls: ['./dialog-tag.component.css']
 })
+/// <summary>
+///     A component representing the popup window of adding adi.
+/// </summary>
 export class DialogTagComponent implements OnInit {
 
 
@@ -37,7 +40,7 @@ export class DialogTagComponent implements OnInit {
       this.selectedDataType = this.config.dataTypes.find(x => x.name === data.dataType);
       this.numOfElements = data.numEle;
       this.startAddress = data.startAddress;
-      this.config.removeStartAddress(data.startAddress,data.startAddress+(data.numEle*this.selectedDataType.size)-1)
+      this.config.removeStartAddress(data.startAddress, data.startAddress + (data.numEle * this.selectedDataType.size) - 1)
     }
     else {
       this.selectedDataType = this.config.dataTypes[0];
@@ -52,6 +55,9 @@ export class DialogTagComponent implements OnInit {
 
 
   }
+  /// <summary>
+  ///     Method to adding adi.
+  /// </summary>
   sendRow() {
     if (this.tagService.getModifyMode()) {
       //old adi
@@ -81,29 +87,39 @@ export class DialogTagComponent implements OnInit {
     }
 
   }
-
+  /// <summary>
+  ///     Method to close popup window through "Save" button.
+  /// </summary>
   onCloseConfirm() {
     this.sendRow();
     this.tagRef.close('Confirm');
   }
-
+  /// <summary>
+  ///     Method to close popup window through "Save & Return" button.
+  /// </summary>
   onCloseReturn() {
     this.sendRow();
     this.tagRef.close('Return');
 
   }
+  /// <summary>
+  ///     Method to close popup window through "Cancel" button.
+  /// </summary>
   onCloseCancel() {
 
     if (this.tagService.getModifyMode()) {
       //original address of row
-      let totalSize = this.data.numEle*this.config.dataTypes.find(x => x.name === this.data.dataType).size
-      this.config.setStartAddress(this.data.startAddress,this.data.startAddress+totalSize-1)
+      let totalSize = this.data.numEle * this.config.dataTypes.find(x => x.name === this.data.dataType).size
+      this.config.setStartAddress(this.data.startAddress, this.data.startAddress + totalSize - 1)
 
-       this.tagService.setModifyMode(false); 
+      this.tagService.setModifyMode(false);
     }
 
     this.tagRef.close('Cancel');
   }
+  /// <summary>
+  ///     Method to assert that adi values are available and correct for saving.
+  /// </summary>
   checkValues() {
     //reassure that number of elements is not undefined
     this.numOfElements = !this.numOfElements ? 1 : this.numOfElements;
@@ -111,22 +127,22 @@ export class DialogTagComponent implements OnInit {
     this.numOfElements = this.numOfElements > 255 ? 255 : this.numOfElements;
     //reassure that start address is not undefined
     this.startAddress = !this.startAddress ? 0 : this.startAddress;
-    this.startAddress = this.startAddress>511 ? 511 : this.startAddress;
+    this.startAddress = this.startAddress > 511 ? 511 : this.startAddress;
     //retrieve the current total bytes of the configurator
     this.totalBytes = this.config.getTotalSize() + (this.selectedDataType.size * this.numOfElements);
     if (this.addressOption === 'manually') {
-    //check that the chosen start address is occupied, then it will disable buttons
+      //check that the chosen start address is occupied, then it will disable buttons
       this.occupiedAddress = this.config.occupiedAddress(this.startAddress,
-        this.numOfElements * this.selectedDataType.size+this.startAddress)
+        this.numOfElements * this.selectedDataType.size + this.startAddress)
       console.log(this.occupiedAddress);
     }
     else {
       //if a tag is being modified return its original start address
       this.startAddress = this.config.getAvailableStartAddr(this.numOfElements * this.selectedDataType.size)
-      this.startAddress = this.startAddress>=512 ? 0 : this.startAddress
+      this.startAddress = this.startAddress >= 512 ? 0 : this.startAddress
       this.occupiedAddress = false;
     }
-    
+
 
   }
 
